@@ -9,7 +9,7 @@ const App = () => {
 		<HashRouter>
 			<Provider store={store}>
 				<div className="App">
-
+					{/*new project*/}
 				</div>
 			</Provider>
 		</HashRouter>
