@@ -22,7 +22,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
 
 //Action creators
 
-const setLoadingAC = (loadingStatus: boolean) => {
+export const setLoadingAC = (loadingStatus: boolean) => {
 	return {type: PROFILE_SET_LOADING, loadingStatus}
 }
 

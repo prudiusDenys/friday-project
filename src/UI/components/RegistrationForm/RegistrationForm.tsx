@@ -1,6 +1,6 @@
 import React from "react";
 import classes from './RegistrationForm.module.scss';
-import {FormGroup, TextField, FormControl, Grid, Theme, createStyles, Paper, Button} from "@material-ui/core";
+import {Button, createStyles, FormControl, FormGroup, Grid, Paper, TextField, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {useFormik} from "formik";
 import {Title} from "../../common/components-common/Title/Title";
@@ -8,7 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {setLoadingTC} from "../../../BLL/reducers/profile-reducer";
 import {rootReducers} from "../../../BLL/store";
 import {Loading} from "../../common/components-common/Loading/Loading";
-import {NavLink, Redirect} from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import {userRegisterTC} from "../../../BLL/reducers/registration-reducer";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,13 +44,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type FormikErrorType = {
 	email?: string
-	userName?: string
 	password?: string
 }
 
 export type UserDataType = {
 	email: string
-	userName: string
 	password: string
 }
 
@@ -59,12 +58,12 @@ export const RegistrationForm = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector<rootReducers, boolean>(state => state.profile.loading)
 	const isRegistered = useSelector<rootReducers, boolean>(state => state.registration.isRegistered)
+	const serverError = useSelector<rootReducers, string>(state => state.registration.error)
 
 
 	const formik = useFormik({
 		initialValues: {
 			email: '',
-			userName: '',
 			password: '',
 		},
 		validate: (values: UserDataType) => {
@@ -73,11 +72,8 @@ export const RegistrationForm = () => {
 				errors.email = 'This field is required';
 			} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
 				errors.email = 'Invalid email address';
-			} else if (!values.userName) {
-				errors.userName = 'This field is required';
-			} else if (values.userName.length < 3) {
-				errors.userName = 'At least 3 symbols'
-			} else if (!values.password) {
+			}
+			else if (!values.password) {
 				errors.password = 'This field is required';
 			} else if (values.password.length < 6) {
 				errors.password = 'Password length should be at least 6 characters';
@@ -86,21 +82,19 @@ export const RegistrationForm = () => {
 		},
 		onSubmit: values => {
 			dispatch(setLoadingTC(true))
-			alert(JSON.stringify(values));
+			dispatch(userRegisterTC(values))
 			// dispatch(setLoadingTC(false))
 		},
 	});
 
-	const redirectToLogin = () => {
-		return <Redirect to={'/Login'}/>
-	}
 
-	if (isRegistered) {
-		return <Redirect to={'/'}/>
-	}
+	// if (isRegistered) {
+	// 	return <Redirect to={'/'}/>
+	// }
 
 	return (
 		<div className={classes.registrationForm}>
+
 			{loading && <Loading/>}
 			<Title title={'Welcome to the registration form page'}/>
 			<Grid container justify={"center"} alignItems={'center'} className={styles.container}>
@@ -109,7 +103,7 @@ export const RegistrationForm = () => {
 						<div className={styles.registration}>
 							<h2 style={{margin: '0 0 30px 0'}}>Please fill in all fields</h2>
 						</div>
-						<form className={classes.form} autoComplete={'off'} onSubmit={formik.handleSubmit}>
+						<form className={classes.form} onSubmit={formik.handleSubmit}>
 							<FormControl className={styles.formControl}>
 								<FormGroup className={styles.formGroup}>
 									<div className={classes.inputBox}>
@@ -120,15 +114,6 @@ export const RegistrationForm = () => {
 															 {...formik.getFieldProps('email')}
 										/>
 										{formik.errors.email && <div className={classes.error}>{formik.errors.email}</div>}
-									</div>
-									<div className={classes.inputBox}>
-										<TextField className={styles.textField}
-															 label="User name"
-															 variant="outlined"
-															 error={formik.errors.userName ? true : undefined}
-															 {...formik.getFieldProps('userName')}
-										/>
-										{formik.errors.userName && <div className={classes.error}>{formik.errors.userName}</div>}
 									</div>
 									<div className={classes.inputBox}>
 										<TextField className={styles.textField}
