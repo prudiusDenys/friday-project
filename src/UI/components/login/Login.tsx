@@ -12,13 +12,22 @@ import {
 } from "@material-ui/core";
 import {useFormik} from "formik";
 import {makeStyles} from "@material-ui/core/styles";
+import {useDispatch, useSelector} from "react-redux";
+import {loginTC} from "../../../BLL/reducers/login-reducer";
+import {NavLink, Redirect} from "react-router-dom";
+import {rootReducers} from "../../../BLL/store";
+import {Spinner} from "../../common/components-common/spinner/Spinner";
 
 export function Login() {
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
             gridItem: {
-                marginBottom: '20%'
+                position: 'relative',
+                zIndex: 1,
+                marginBottom: '20%',
+                width: '350px',
+                padding: '0 10px'
             },
             formControl: {
                 width: '100%'
@@ -34,10 +43,28 @@ export function Login() {
             },
             errMessage: {
                 color: '#d82626'
+            },
+            button: {
+                margin: '0 0 10px 0'
+            },
+            signUp: {
+                width: '100%'
+            },
+            disable: {
+                opacity: 0.5,
+                pointerEvents: 'none'
+            },
+            enable: {
+                opacity: 1,
+                pointerEvents: 'inherit'
             }
         }),
     )
     const styles = useStyles()
+
+    const dispatch = useDispatch()
+    const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
+    const success = useSelector<rootReducers, boolean>(state => state.app.success)
 
     const formik = useFormik({
         initialValues: {
@@ -51,13 +78,16 @@ export function Login() {
             if (values.password.length <= 6) return {password: 'Password should be more than 5 symbols'}
         },
         onSubmit: values => {
-            // dispatch(loginTC(values))
+            dispatch(loginTC(values))
         },
     })
 
+    if (isSignIn) return <Redirect to={'/'}/>
+
     return (
         <Grid container className={styles.container}>
-            <Grid item xs={4} className={styles.gridItem} >
+            <Grid item className={`${styles.gridItem} ${success ? styles.enable : styles.disable}`} >
+                {!success && <Spinner />}
                 {/*Hook useFormik gives handleSubmit function to take all form's values*/}
                 <form onSubmit={formik.handleSubmit}>
                     <FormControl className={styles.formControl}>
@@ -81,7 +111,10 @@ export function Login() {
                                                   />
                                               }
                             />
-                            <Button type={'submit'} variant={'contained'} color={'primary'}>Sign in</Button>
+                            <Button className={styles.button} type={'submit'} variant={'contained'} color={'primary'}>Sign In</Button>
+                            <NavLink to={'/registration'}>
+                                <Button className={styles.signUp} variant={'contained'} color={'secondary'}>Sign Up</Button>
+                            </NavLink>
                         </FormGroup>
                     </FormControl>
                 </form>

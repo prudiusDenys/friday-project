@@ -8,7 +8,10 @@ const instance = axios.create ({
 export const RequestsAPI = {
 	createUser (userData: UserDataType) {
 		return 	instance.post<CreateUserType>('auth/register', userData)
-	}
+	},
+	login(data: LoginParamsType) {
+		return instance.post<ResponseType>(`auth/login`, data)
+	},
 }
 
 
@@ -28,4 +31,22 @@ type CreateUserType = {
 		_id: string
 	}
 	success: boolean
+}
+
+type ResponseType = {
+	email: string
+	name: string
+	isAdmin: boolean
+	rememberMe: boolean
+	token: string
+	tokenDeathTime: number
+	__v: number
+	_id: string
+	success: boolean
+}
+
+export type LoginParamsType = {
+	email: string
+	password: string
+	rememberMe: boolean
 }
