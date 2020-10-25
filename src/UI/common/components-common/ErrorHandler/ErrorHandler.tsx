@@ -1,32 +1,34 @@
-import React from "react";
-import Alert, {AlertProps} from '@material-ui/lab/Alert';
-import {Snackbar} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {rootReducers} from "../../../../BLL/store";
+import React from 'react'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert, {AlertProps} from '@material-ui/lab/Alert'
+import {useDispatch} from 'react-redux'
 
+function Alert(props: AlertProps) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />
+}
 
-// function Alert(props: AlertProps) {
-// 	return <MuiAlert elevation={6} variant="filled" {...props} />
-// }
+type PropsType = {
+	error: string | null
+	actionCreator:(value:any)=> any
+}
 
-export const ErrorHandler = () => {
-	const error = useSelector<rootReducers, string>(state => state.registration.error);
+export const ErrorHandler = (props: PropsType)=> {
 	const dispatch = useDispatch()
 
 	const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
 		if (reason === 'clickaway') {
 			return
 		}
-		// dispatch(setAppErrorAC(null));
+		dispatch(props.actionCreator(''));
 	}
 
 
-	const isOpen = error !== null;
+	const isOpen = props.error !== '' || props.error !== null;
 
 	return (
 		<Snackbar open={isOpen} autoHideDuration={6000} onClose={handleClose}>
 			<Alert onClose={handleClose} severity="error">
-				{error}
+				{props.error}
 			</Alert>
 		</Snackbar>
 	)

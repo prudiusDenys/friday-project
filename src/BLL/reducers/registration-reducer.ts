@@ -2,7 +2,6 @@ import {Dispatch} from "redux";
 import {UserDataType} from "../../UI/components/RegistrationForm/RegistrationForm";
 import {RequestsAPI} from "../../DAL/api/ReuqestsAPI";
 import {setLoadingAC} from "./profile-reducer";
-import {handleServerRegistrationError} from "../../utils/error-utils";
 
 const REGISTRATION_REGISTER_USER = ' REGISTRATION_FORM/REGISTER_USER';
 const REGISTRATION_REGISTER_ERROR = ' REGISTRATION_REGISTER_ERROR';
@@ -57,7 +56,7 @@ export const userRegisterTC = (userData: UserDataType) => (dispatch: Dispatch) =
 			dispatch(setLoadingAC(false))
 		})
 		.catch(error=>{
-			handleServerRegistrationError(dispatch)
+			registerErrorAC('Email has already existed');
 		})
 
 	dispatch(userRegisterAC(userData))

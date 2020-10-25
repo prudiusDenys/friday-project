@@ -5,11 +5,11 @@ import {makeStyles} from "@material-ui/core/styles";
 import {useFormik} from "formik";
 import {Title} from "../../common/components-common/Title/Title";
 import {useDispatch, useSelector} from "react-redux";
-import {setLoadingTC} from "../../../BLL/reducers/profile-reducer";
 import {rootReducers} from "../../../BLL/store";
 import {Loading} from "../../common/components-common/Loading/Loading";
 import {NavLink} from "react-router-dom";
-import {userRegisterTC} from "../../../BLL/reducers/registration-reducer";
+import {registerErrorAC, userRegisterTC} from "../../../BLL/reducers/registration-reducer";
+import {ErrorHandler} from "../../common/components-common/ErrorHandler/ErrorHandler";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -58,7 +58,7 @@ export const RegistrationForm = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector<rootReducers, boolean>(state => state.profile.loading)
 	const isRegistered = useSelector<rootReducers, boolean>(state => state.registration.isRegistered)
-	const serverError = useSelector<rootReducers, string>(state => state.registration.error)
+	const registrationError = useSelector<rootReducers, string>(state => state.registration.error)
 
 
 	const formik = useFormik({
@@ -81,7 +81,6 @@ export const RegistrationForm = () => {
 			return errors
 		},
 		onSubmit: values => {
-			dispatch(setLoadingTC(true))
 			dispatch(userRegisterTC(values))
 			// dispatch(setLoadingTC(false))
 		},
@@ -94,7 +93,6 @@ export const RegistrationForm = () => {
 
 	return (
 		<div className={classes.registrationForm}>
-
 			{loading && <Loading/>}
 			<Title title={'Welcome to the registration form page'}/>
 			<Grid container justify={"center"} alignItems={'center'} className={styles.container}>
@@ -137,6 +135,7 @@ export const RegistrationForm = () => {
 					</Paper>
 				</Grid>
 			</Grid>
+			<ErrorHandler error={registrationError} actionCreator={registerErrorAC}/>
 		</div>
 	)
 }
