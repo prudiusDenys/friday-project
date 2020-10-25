@@ -2,15 +2,12 @@ import {Dispatch} from "redux";
 import {UserDataType} from "../../UI/components/RegistrationForm/RegistrationForm";
 import {RequestsAPI} from "../../DAL/api/ReuqestsAPI";
 import {setLoadingAC} from "./profile-reducer";
+import {setAppErrorMessage, setAppStatusMessage} from "./app-reducer";
 
-const REGISTRATION_REGISTER_USER = ' REGISTRATION_FORM/REGISTER_USER';
-const REGISTRATION_REGISTER_ERROR = ' REGISTRATION_REGISTER_ERROR';
+const REGISTRATION_REGISTER_USER = ' REGISTRATION/REGISTER_USER';
 
 const initialState = {
-	email: '',
-	password: '',
 	isRegistered: false,
-	error: ''
 }
 
 type InitialStateType = typeof initialState
@@ -21,15 +18,7 @@ export const registrationReducer = (state: InitialStateType = initialState, acti
 		case REGISTRATION_REGISTER_USER : {
 			return {
 				...state,
-				email: action.userData.email,
-				password: action.userData.password,
-				isRegistered: true
-			}
-		}
-		case REGISTRATION_REGISTER_ERROR:{
-			return {
-				...state,
-				error: action.error
+				isRegistered: action.isRegistered
 			}
 		}
 	}
@@ -39,12 +28,8 @@ export const registrationReducer = (state: InitialStateType = initialState, acti
 
 //Action creators
 
- const userRegisterAC = (userData: UserDataType) => {
-	return {type: REGISTRATION_REGISTER_USER, userData} as const
-}
-
-export const registerErrorAC = (error: string) => {
-	return {type: REGISTRATION_REGISTER_ERROR, error} as const
+const userRegisteredAC = (isRegistered: boolean) => {
+	return {type: REGISTRATION_REGISTER_USER, isRegistered} as const
 }
 
 // Thanks
@@ -52,17 +37,17 @@ export const registerErrorAC = (error: string) => {
 export const userRegisterTC = (userData: UserDataType) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
 	RequestsAPI.createUser(userData)
-		.then(res=>{
-			dispatch(setLoadingAC(false))
+		.then(res => {
+			dispatch(userRegisteredAC(true))
+			dispatch(setAppStatusMessage('You are registered successfully', 'success'))
 		})
-		.catch(error=>{
-			registerErrorAC('Email has already existed');
+		.catch(error => {
+			dispatch(userRegisteredAC(false))
+			dispatch(setAppErrorMessage(error.response.data.error, "error"))
 		})
-
-	dispatch(userRegisterAC(userData))
+		.finally(() => dispatch(setLoadingAC(false)))
 }
-
 
 // types
 
-type ActionsType = ReturnType<typeof userRegisterAC> | ReturnType<typeof registerErrorAC>
+type ActionsType = ReturnType<typeof userRegisteredAC>
