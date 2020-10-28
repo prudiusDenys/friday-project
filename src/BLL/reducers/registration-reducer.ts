@@ -2,7 +2,7 @@ import {Dispatch} from "redux";
 import {UserDataType} from "../../UI/components/RegistrationForm/RegistrationForm";
 import {RequestsAPI} from "../../DAL/api/ReuqestsAPI";
 import {setLoadingAC} from "./profile-reducer";
-import {setAppErrorMessage, setAppStatusMessage} from "./app-reducer";
+import {setAppErrorMessage} from "./app-reducer";
 
 const REGISTRATION_REGISTER_USER = ' REGISTRATION/REGISTER_USER';
 
@@ -39,11 +39,10 @@ export const userRegisterTC = (userData: UserDataType) => (dispatch: Dispatch) =
 	RequestsAPI.createUser(userData)
 		.then(res => {
 			dispatch(userRegisteredAC(true))
-			dispatch(setAppStatusMessage('You are registered successfully', 'success'))
 		})
 		.catch(error => {
 			dispatch(userRegisteredAC(false))
-			dispatch(setAppErrorMessage(error.response.data.error, "error"))
+			dispatch(setAppErrorMessage(error.response.data.error))
 		})
 		.finally(() => dispatch(setLoadingAC(false)))
 }

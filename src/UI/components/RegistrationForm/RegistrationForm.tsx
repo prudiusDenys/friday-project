@@ -9,7 +9,7 @@ import {rootReducers} from "../../../BLL/store";
 import {Loading} from "../../common/components-common/Loading/Loading";
 import {NavLink, Redirect, } from "react-router-dom";
 import {userRegisterTC} from "../../../BLL/reducers/registration-reducer";
-import {SnackbarStatus} from "../../common/components-common/SnackbarStatus/SnackbarStatus";
+import {SnackbarError} from "../../common/components-common/SnackbarError/SnackbarError";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -87,7 +87,7 @@ export const RegistrationForm = () => {
 
 
 	if(isRegistered){
-		return <Redirect to={'/'}/>
+		return <Redirect to={'/login'}/>
 	}
 
 
@@ -126,8 +126,8 @@ export const RegistrationForm = () => {
 									<Button type={'submit'} disabled={!(formik.isValid && formik.dirty)} variant={"contained"}
 													color={'primary'} className={styles.button}>Sign
 										up</Button>
-									<NavLink to={'/login'} style={{textDecoration: 'none'}}>
-										<Button color={'secondary'}>Login</Button>
+									<NavLink to={'/login'} style={{textDecoration: 'none', width: '100%'}}>
+										<Button style={{width: '100%'}} color={'secondary'} variant={"contained"}>Login</Button>
 									</NavLink>
 								</FormGroup>
 							</FormControl>
@@ -135,7 +135,7 @@ export const RegistrationForm = () => {
 					</Paper>
 				</Grid>
 			</Grid>
-			<SnackbarStatus/>
+			<SnackbarError/>
 		</div>
 	)
 }

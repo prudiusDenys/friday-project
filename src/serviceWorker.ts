@@ -102,7 +102,7 @@ function registerValidSW(swUrl: string, config?: Config) {
       };
     })
     .catch(error => {
-      console.error('SnackbarStatus during service worker registration:', error);
+      console.error('SnackbarError during service worker registration:', error);
     });
 }
 

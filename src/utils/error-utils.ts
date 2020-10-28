@@ -3,7 +3,7 @@ import {AppErrorMessageType, setAppErrorMessage} from "../BLL/reducers/app-reduc
 
 export const handleServerNetworkError = (error: ServerErrorType, dispatch: DispatchType) => {
 	const errorMessage = error.response.data.error ? error.response.data.error : 'Some error :('
-	dispatch(setAppErrorMessage(errorMessage, "error"))
+	dispatch(setAppErrorMessage(errorMessage))
 }
 
 type DispatchType = Dispatch<AppErrorMessageType>
