@@ -78,8 +78,9 @@ export const RecoveryPassword = () => {
 			}
 			return errors
 		},
-		onSubmit: values => {
+		onSubmit: (values,{resetForm}) => {
 			dispatch(recoveryPasswordTC(values.password, userId))
+			resetForm()
 		},
 	});
 

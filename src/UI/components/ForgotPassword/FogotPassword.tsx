@@ -56,7 +56,7 @@ export const ForgotPassword = () => {
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const loading = useSelector<rootReducers, boolean>(state => state.profile.loading)
-	const emailSentSuccessful = useSelector<rootReducers, boolean>(state => state.forgotPassword.emailSentSuccessful)
+	const isSuccessfulMessage = useSelector<rootReducers, boolean>(state => state.app.isSuccessfulMessage)
 
 	const formik = useFormik({
 		initialValues: {
@@ -72,8 +72,9 @@ export const ForgotPassword = () => {
 
 			return errors
 		},
-		onSubmit: values => {
-			dispatch(forgotPasswordTC(values.email))
+		onSubmit: (values,{resetForm}) => {
+				dispatch(forgotPasswordTC(values.email))
+				resetForm()
 		},
 	});
 
@@ -108,7 +109,7 @@ export const ForgotPassword = () => {
 				</Grid>
 			</Grid>
 			<SnackbarError/>
-			{!emailSentSuccessful && <SimplePopover/>}
+			{isSuccessfulMessage && <SimplePopover/>}
 		</div>
 	)
 }

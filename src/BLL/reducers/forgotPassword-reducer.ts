@@ -31,7 +31,6 @@ export const emailSentSuccessfulAC = (value: boolean) => {
 // Thanks
 
 export const forgotPasswordTC = (email: string) => (dispatch: Dispatch) => {
-	debugger
 	dispatch(setLoadingAC(true))
 	authAPI.sendRecoveryEmail(email)
 		.then(res => {
