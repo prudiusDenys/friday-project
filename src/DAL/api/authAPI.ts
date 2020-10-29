@@ -1,23 +1,36 @@
 import axios from 'axios'
 import {UserDataType} from "../../UI/components/RegistrationForm/RegistrationForm";
 
-const instance = axios.create ({
+const instance = axios.create({
 	baseURL: 'https://neko-back.herokuapp.com/2.0/',
 	withCredentials: true
 })
 
 export const authAPI = {
-	createUser (userData: UserDataType) {
-		return 	instance.post<CreateUserType>('auth/register', userData)
+	createUser(userData: UserDataType) {
+		return instance.post<CreateUserType>('auth/register', userData)
 	},
 	login(data: LoginParamsType) {
 		return instance.post<ResponseLoginType>(`auth/login`, data)
 	},
-	me(){
-		return instance.post<ResponseMeType>('auth/me',{})
+	me() {
+		return instance.post<ResponseMeType>('auth/me', {})
 	},
-	logout(){
+	logout() {
 		return instance.delete<DeleteType>('auth/me')
+	},
+	sendRecoveryEmail(email: string) {
+		return instance.post<{ info: string, error: string }>('auth/forgot', {
+			email: email,
+			from: 'testdenis12345@gmail.com',
+			message: `<div style="background-color: lime; padding: 15px"> 
+					password recovery link: 	
+					<a href='https://prudiusdenys.github.io/friday-project/#/recovery/$token$'>link</a></div>`
+			// хтмп-письмо, вместо $token$ бэк вставит токен
+		})
+	},
+	setNewPassword(passwordData: any) {
+		return instance.post<{ info: string, error: string }>('auth/set-new-password', passwordData)
 	}
 }
 
@@ -61,11 +74,11 @@ export type LoginParamsType = {
 	rememberMe: boolean
 }
 
-type ResponseMeType ={
+type ResponseMeType = {
 	_id: string
 	email: string
 	name: string
-	avatar? : string
+	avatar?: string
 	publicCardPacksCount: number // количество колод
 	created: Date
 	updated: Date
