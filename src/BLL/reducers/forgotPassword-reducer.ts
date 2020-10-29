@@ -1,11 +1,12 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../../DAL/api/authAPI";
 import {setLoadingAC} from "./profile-reducer";
-import {setAppErrorMessage} from "./app-reducer";
+import {setAppErrorMessage, setSuccessfulMessage} from "./app-reducer";
 
 
 const initialState = {
 	emailSentSuccessful: false,
+
 }
 
 type InitialStateType = typeof initialState
@@ -23,7 +24,7 @@ export const forgotPasswordReducer = (state: InitialStateType = initialState, ac
 
 //Action creators
 
-const emailSentSuccessful = (value: boolean) => {
+export const emailSentSuccessfulAC = (value: boolean) => {
 	return {type: 'forgotPassword/EMAIL-SET-SUCCESSFUL', value} as const
 }
 
@@ -34,7 +35,8 @@ export const forgotPasswordTC = (email: string) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
 	authAPI.sendRecoveryEmail(email)
 		.then(res => {
-			dispatch(emailSentSuccessful(true))
+			dispatch(emailSentSuccessfulAC(true))
+			dispatch(setSuccessfulMessage(true))
 		})
 		.catch(error => {
 			dispatch(setAppErrorMessage(error.response.data.error))
@@ -44,4 +46,4 @@ export const forgotPasswordTC = (email: string) => (dispatch: Dispatch) => {
 
 // types
 
-type ActionsType = ReturnType<typeof emailSentSuccessful>
+type ActionsType = ReturnType<typeof emailSentSuccessfulAC>

@@ -5,7 +5,8 @@ import {isSignIn, setUser} from "./login-reducer";
 const initState: StateType = {
 	errorMessage: null,
 	success: true,
-	isInitialized: false
+	isInitialized: false,
+	isSuccessfulMessage: false
 }
 
 export const appReducer = (state: StateType = initState, action: ActionType): StateType => {
@@ -19,10 +20,15 @@ export const appReducer = (state: StateType = initState, action: ActionType): St
 				errorMessage: action.errorMessage
 			}
 		}
-		case "app/SET-APP-INITIALIZED":{
+		case "app/SET-APP-INITIALIZED": {
 			return {
 				...state,
 				isInitialized: action.value
+			}
+		}
+		case "app/SET-SUCCESS-MESSAGE":{
+			return {
+				...state, isSuccessfulMessage: action.value
 			}
 		}
 		default:
@@ -36,6 +42,9 @@ export const setAppErrorMessage = (errorMessage: string | null) => {
 }
 export const setAppInitialized = (value: boolean) => {
 	return {type: 'app/SET-APP-INITIALIZED', value} as const
+}
+export const setSuccessfulMessage = (value: boolean) => {
+	return {type: 'app/SET-SUCCESS-MESSAGE', value} as const
 }
 
 export const setAppStatus = (success: boolean) => ({type: 'app/SET-STATUS', success} as const)
@@ -54,8 +63,13 @@ type StateType = {
 	errorMessage: string | null
 	success: boolean,
 	isInitialized: boolean
+	isSuccessfulMessage: boolean
 }
 
-type ActionType = AppErrorMessageType | AppStatusType | ReturnType<typeof setAppInitialized> | ReturnType<typeof setUser>
+type ActionType = AppErrorMessageType
+	| AppStatusType
+	| ReturnType<typeof setAppInitialized>
+	| ReturnType<typeof setUser>
+	| ReturnType<typeof setSuccessfulMessage>
 export type AppErrorMessageType = ReturnType<typeof setAppErrorMessage>
 export type AppStatusType = ReturnType<typeof setAppStatus>

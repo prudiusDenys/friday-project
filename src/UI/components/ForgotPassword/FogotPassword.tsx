@@ -10,6 +10,7 @@ import {Loading} from "../../common/components-common/Loading/Loading";
 import {SnackbarError} from "../../common/components-common/SnackbarError/SnackbarError";
 import {NavLink, Redirect} from "react-router-dom";
 import {forgotPasswordTC} from "../../../BLL/reducers/forgotPassword-reducer";
+import { SimplePopover } from "../../common/components-common/SimplePopover/SimplePopover";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -76,11 +77,6 @@ export const ForgotPassword = () => {
 		},
 	});
 
-
-	if(emailSentSuccessful){
-		return <Redirect to={'/recovery'}/>
-	}
-
 	return (
 		<div className={classes.forgotPassword}>
 			{loading && <Loading/>}
@@ -112,6 +108,7 @@ export const ForgotPassword = () => {
 				</Grid>
 			</Grid>
 			<SnackbarError/>
+			{!emailSentSuccessful && <SimplePopover/>}
 		</div>
 	)
 }
