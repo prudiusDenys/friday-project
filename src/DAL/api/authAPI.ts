@@ -30,7 +30,7 @@ export const authAPI = {
 		})
 	},
 	setNewPassword(password: string, userId: string) {
-		return instance.post<{ info: string, error: string }>('auth/set-new-password', {password, userId})
+		return instance.post<{ info: string, error: string }>('auth/set-new-password', {password: password, resetPasswordToken: userId	})
 	}
 }
 
