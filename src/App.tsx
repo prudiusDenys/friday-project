@@ -18,7 +18,7 @@ const App = () => {
 					<Route path={'/registration'} render={() => <RegistrationForm/>}/>
 					<Route path={'/login'} render={() => <Login/>}/>
 					<Route path={'/forgotPassword'} render={() => <ForgotPassword/>}/>
-					<Route path={'/recovery'} render={() => <RecoveryPassword/>}/>
+					<Route path={'/recovery/:userId'} render={() => <RecoveryPassword/>}/>
 				</div>
 			</Provider>
 		</HashRouter>
