@@ -29,8 +29,8 @@ export const authAPI = {
 			// хтмп-письмо, вместо $token$ бэк вставит токен
 		})
 	},
-	setNewPassword(passwordData: any) {
-		return instance.post<{ info: string, error: string }>('auth/set-new-password', passwordData)
+	setNewPassword(password: string, userId: string) {
+		return instance.post<{ info: string, error: string }>('auth/set-new-password', {password, userId})
 	}
 }
 

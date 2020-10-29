@@ -59,8 +59,8 @@ export const RecoveryPassword = () => {
 	const loading = useSelector<rootReducers, boolean>(state => state.profile.loading)
 	const passwordIsUpdated = useSelector<rootReducers, boolean>(state => state.recoveryPassword.passwordIsUpdated)
 
+	// get userId from URl
 	const {userId} = useParams()
-	console.log(userId)
 
 	const formik = useFormik({
 		initialValues: {
@@ -79,7 +79,7 @@ export const RecoveryPassword = () => {
 			return errors
 		},
 		onSubmit: values => {
-			dispatch(recoveryPasswordTC(values.password))
+			dispatch(recoveryPasswordTC(values.password, userId))
 		},
 	});
 

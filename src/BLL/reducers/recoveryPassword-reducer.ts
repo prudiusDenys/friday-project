@@ -29,10 +29,9 @@ const updatePassword = (value: boolean) => {
 
 // Thanks
 
-export const recoveryPasswordTC = (passwordData: any) => (dispatch: Dispatch) => {
-	debugger
+export const recoveryPasswordTC = (password: string, userId: string) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
-	authAPI.setNewPassword(passwordData)
+	authAPI.setNewPassword(password, userId)
 		.then(res => {
 			dispatch(updatePassword(true))
 		})
