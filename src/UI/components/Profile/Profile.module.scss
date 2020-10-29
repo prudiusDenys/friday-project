@@ -1,0 +1,21 @@
+
+.profileContent {
+  position: relative;
+  height: 80px;
+
+  .btn {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+  }
+}
+.loading{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+

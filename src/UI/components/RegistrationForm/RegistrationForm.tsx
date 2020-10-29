@@ -58,6 +58,7 @@ export const RegistrationForm = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector<rootReducers, boolean>(state => state.profile.loading)
 	const isRegistered = useSelector<rootReducers, boolean>(state => state.registration.isRegistered)
+	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
 
 	const formik = useFormik({
 		initialValues: {
@@ -83,13 +84,12 @@ export const RegistrationForm = () => {
 		},
 	});
 
-
-
-
 	if(isRegistered){
 		return <Redirect to={'/login'}/>
 	}
-
+	if(isSignIn){
+		return <Redirect to={'/'}/>
+	}
 
 	return (
 		<div className={classes.registrationForm}>

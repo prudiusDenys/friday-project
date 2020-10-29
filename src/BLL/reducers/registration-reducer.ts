@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {UserDataType} from "../../UI/components/RegistrationForm/RegistrationForm";
-import {RequestsAPI} from "../../DAL/api/ReuqestsAPI";
+import {authAPI} from "../../DAL/api/authAPI";
 import {setLoadingAC} from "./profile-reducer";
 import {setAppErrorMessage} from "./app-reducer";
 
@@ -36,7 +36,7 @@ const userRegisteredAC = (isRegistered: boolean) => {
 
 export const userRegisterTC = (userData: UserDataType) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
-	RequestsAPI.createUser(userData)
+	authAPI.createUser(userData)
 		.then(res => {
 			dispatch(userRegisteredAC(true))
 		})
