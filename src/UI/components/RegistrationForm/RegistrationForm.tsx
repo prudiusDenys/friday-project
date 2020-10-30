@@ -79,8 +79,9 @@ export const RegistrationForm = React.memo(() => {
 			}
 			return errors
 		},
-		onSubmit: values => {
+		onSubmit: (values,{resetForm}) => {
 			dispatch(userRegisterTC(values))
+			resetForm();
 		},
 	});
 

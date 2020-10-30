@@ -19,50 +19,71 @@ import {rootReducers} from "../../../BLL/store";
 import {Spinner} from "../../common/components-common/spinner/Spinner";
 import {Title} from "../../common/components-common/Title/Title";
 
-export const Login = React.memo(()=> {
 
-	const useStyles = makeStyles((theme: Theme) =>
-		createStyles({
-			gridItem: {
-				position: 'relative',
-				zIndex: 1,
-				maxWidth: '400px',
-				width: '100%',
-				padding: '0 10px'
-			},
-			formControl: {
-				width: '100%'
-			},
-			container: {
-				height: '100vh',
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center'
-			},
-			formLabel: {
-				margin: '10px 0 10px 0'
-			},
-			errMessage: {
-				color: '#d82626'
-			},
-			button: {
-				margin: '0 0 10px 0'
-			},
-			signUp: {
-				width: '100%'
-			},
-			disable: {
-				opacity: 0.5,
-				pointerEvents: 'none'
-			},
-			enable: {
-				opacity: 1,
-				pointerEvents: 'inherit'
-			}
-		}),
-	)
+type LoginDataType = {
+	email: string,
+	password: string,
+	rememberMe: boolean
+}
+
+type LoginErrorType = {
+	email?: string,
+	password?: string,
+	rememberMe?: boolean
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+	createStyles({
+		gridItem: {
+			position: 'relative',
+			zIndex: 1,
+			maxWidth: '400px',
+			width: '100%',
+			padding: '0 10px'
+		},
+		formControl: {
+			width: '100%'
+		},
+		container: {
+			height: '100vh',
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		formLabel: {
+			margin: '10px 0 10px 0'
+		},
+		inputBox: {
+			position: 'relative',
+			width: '100%'
+		},
+		errMessage: {
+			position: 'absolute',
+			bottom: '-16px',
+			left: '0',
+			color: '#d82626',
+
+		},
+		button: {
+			margin: '0 0 10px 0'
+		},
+		signUp: {
+			width: '100%'
+		},
+		disable: {
+			opacity: 0.5,
+			pointerEvents: 'none'
+		},
+		enable: {
+			opacity: 1,
+			pointerEvents: 'inherit'
+		}
+	}),
+)
+
+export const Login = React.memo(() => {
+
 	const styles = useStyles()
-
 	const dispatch = useDispatch()
 	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
 	const success = useSelector<rootReducers, boolean>(state => state.app.success)
@@ -73,13 +94,22 @@ export const Login = React.memo(()=> {
 			password: '',
 			rememberMe: false
 		},
-		validate: values => {
-			if (!values.email) return {email: 'Email is required!'}
-			if (!values.password) return {password: 'Password is required!'}
-			if (values.password.length <= 6) return {password: 'Password should be more than 5 symbols'}
+		validate: (values: LoginDataType) => {
+			const errors: LoginErrorType = {};
+			if (!values.email) {
+				errors.email = 'This field is required';
+			} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+				errors.email = 'Invalid email address';
+			} else if (!values.password) {
+				errors.password = 'This field is required';
+			} else if (values.password.length < 8) {
+				errors.password = 'Password should be at least 8 characters';
+			}
+			return errors
 		},
-		onSubmit: values => {
+		onSubmit: (values, {resetForm}) => {
 			dispatch(loginTC(values))
+			resetForm();
 		},
 	})
 
@@ -92,34 +122,49 @@ export const Login = React.memo(()=> {
 				<Grid item className={`${styles.gridItem} ${success ? styles.enable : styles.disable}`}>
 					{!success && <Spinner/>}
 					<Paper elevation={3} style={{padding: '30px'}}>
-						{/*Hook useFormik gives handleSubmit function to take all form's values*/}
 						<form onSubmit={formik.handleSubmit}>
 							<FormControl className={styles.formControl}>
 								<FormGroup>
-									<TextField type={'email'} label={'Email'} margin={'normal'}
-										// Get all props from email
-														 {...formik.getFieldProps('email')}
-									/>
-									{/*Get an error message if email is not valid*/}
-									{formik.errors.email && <div className={styles.errMessage}>{formik.errors.email}</div>}
-									<TextField type={'password'} label={'Password'} margin={'normal'}
-														 {...formik.getFieldProps('password')}
-									/>
-									{formik.errors.password && <div className={styles.errMessage}>{formik.errors.password}</div>}
+									<div className={styles.inputBox}>
+										<TextField style={{width: '100%'}}
+															 type={'email'}
+															 label={'Email'}
+															 margin={'normal'}
+															 error={formik.errors.email ? true : undefined}
+															 {...formik.getFieldProps('email')}/>
+										{formik.errors.email && <div className={styles.errMessage}>{formik.errors.email}</div>}
+									</div>
+									<div className={styles.inputBox}>
+										<TextField style={{width: '100%'}}
+															 type={'password'}
+															 label={'Password'}
+															 margin={'normal'}
+															 error={formik.errors.password ? true : undefined}
+															 {...formik.getFieldProps('password')}/>
+										{formik.errors.password && <div className={styles.errMessage}>{formik.errors.password}</div>}
+									</div>
 									<FormControlLabel className={styles.formLabel} label={'Remember me'}
 																		control={
 																			// Get all props from checkbox
 																			// checked value must be taken from formik
-																			<Checkbox color={'primary'} checked={formik.values.rememberMe}
-																								{...formik.getFieldProps('rememberMe')}
-																			/>
+																			<Checkbox color={'primary'}
+																								checked={formik.values.rememberMe}
+																								{...formik.getFieldProps('rememberMe')}/>
 																		}
 									/>
-									<NavLink to={'/forgotPassword'} style={{marginBottom: '10px', color: '#3f51b5'}}>Forgot Password?</NavLink>
-									<Button className={styles.button} type={'submit'} variant={'contained'} color={'primary'}>Sign
-										In</Button>
+									<NavLink to={'/forgotPassword'}
+													 style={{marginBottom: '10px', color: '#3f51b5'}}>Forgot Password?
+									</NavLink>
+									<Button className={styles.button}
+													type={'submit'}
+													variant={'contained'}
+													color={'primary'}>Sign In
+									</Button>
 									<NavLink to={'/registration'}>
-										<Button className={styles.signUp} variant={'contained'} color={'secondary'}>Sign Up</Button>
+										<Button className={styles.signUp}
+														variant={'contained'}
+														color={'secondary'}>Sign Up
+										</Button>
 									</NavLink>
 								</FormGroup>
 							</FormControl>
@@ -128,6 +173,5 @@ export const Login = React.memo(()=> {
 				</Grid>
 			</Grid>
 		</div>
-
 	)
 })
