@@ -120,16 +120,19 @@ export const Login = React.memo(() => {
 
 		const _authOk = (googleUser: any) => {
 			console.log('Auth Ok', googleUser.getBasicProfile().getId())
-			googleUser.getBasicProfile().getId()
+		googleUser.getBasicProfile().getId()
 		}
 		const _authError = (googleUser: any) => {
 			console.log('Auth Error', googleUser)
 		}
 
 		// @ts-ignore
-		Promise.resolve(window.gapi.auth2.getAuthInstance().signIn({
-			scope: 'profile email'
-		})).then(_authOk, _authError)
+		const GoogleAuth = window.gapi.auth2.getAuthInstance();
+		GoogleAuth.signIn(
+			{
+				scope: 'profile email'
+			}
+		).then(_authOk, _authError)
 	}
 
 	return (
@@ -143,7 +146,7 @@ export const Login = React.memo(() => {
 							<FormControl className={styles.formControl}>
 								<FormGroup>
 									<div className={styles.inputBox}>
-										<TextField style={{width: '100%', paddingBottom: '30px'}}
+										<TextField style={{width: '100%',paddingBottom: '30px'}}
 															 type={'email'}
 															 label={'Email'}
 															 variant={"outlined"}
@@ -183,7 +186,7 @@ export const Login = React.memo(() => {
 														color={'secondary'}>Sign Up
 										</Button>
 									</NavLink>
-									<button onClick={googleSignIn}>Google Log In</button>
+									<button onClick={googleSignIn} >Google Log In</button>
 								</FormGroup>
 							</FormControl>
 						</form>
