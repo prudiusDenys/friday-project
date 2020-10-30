@@ -117,7 +117,6 @@ export const Login = React.memo(() => {
 	if (isSignIn) return <Redirect to={'/'}/>
 
 	const googleSignIn = () => {
-
 		const _authOk = (googleUser: any) => {
 			console.log('Auth Ok', googleUser.getBasicProfile().getId())
 		googleUser.getBasicProfile().getId()
@@ -186,7 +185,7 @@ export const Login = React.memo(() => {
 														color={'secondary'}>Sign Up
 										</Button>
 									</NavLink>
-									<button onClick={googleSignIn} >Google Log In</button>
+									<button type={"button"} onClick={googleSignIn} >Google Log In</button>
 								</FormGroup>
 							</FormControl>
 						</form>
