@@ -5,10 +5,10 @@ type PropsType = {
 	title: string
 }
 
-export const Title = ({title} : PropsType) => {
+export const Title = React.memo(({title} : PropsType) => {
 	return (
 		<div className={classes.title}>
 			<h1>{title}</h1>
 		</div>
 	)
-}
+})

@@ -11,7 +11,6 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-
 export const forgotPasswordReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
 	switch (action.type) {
 		case "forgotPassword/EMAIL-SET-SUCCESSFUL" : {
@@ -20,7 +19,6 @@ export const forgotPasswordReducer = (state: InitialStateType = initialState, ac
 	}
 	return state
 }
-
 
 //Action creators
 

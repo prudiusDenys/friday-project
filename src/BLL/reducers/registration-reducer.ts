@@ -12,7 +12,6 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-
 export const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
 	switch (action.type) {
 		case REGISTRATION_REGISTER_USER : {

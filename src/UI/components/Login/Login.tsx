@@ -19,7 +19,7 @@ import {rootReducers} from "../../../BLL/store";
 import {Spinner} from "../../common/components-common/spinner/Spinner";
 import {Title} from "../../common/components-common/Title/Title";
 
-export function Login() {
+export const Login = React.memo(()=> {
 
 	const useStyles = makeStyles((theme: Theme) =>
 		createStyles({
@@ -130,4 +130,4 @@ export function Login() {
 		</div>
 
 	)
-}
+})

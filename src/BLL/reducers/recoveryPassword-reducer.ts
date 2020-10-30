@@ -10,7 +10,6 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-
 export const recoveryPasswordReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
 	switch (action.type) {
 		case "recoveryPassword/PASSWORD-IS-CONFIRMED" : {

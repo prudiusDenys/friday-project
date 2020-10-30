@@ -9,10 +9,10 @@ const progressStyle = {
 	transform: 'translate(-50%,-50%)'
 } as const
 
-export const CircleLoading = () => {
+export const CircleLoading = React.memo(() => {
 	return (
 		<div style={progressStyle}>
 			<CircularProgress/>
 		</div>
 	)
-}
+})

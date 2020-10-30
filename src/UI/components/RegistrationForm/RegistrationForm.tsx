@@ -52,7 +52,7 @@ export type UserDataType = {
 	password: string
 }
 
-export const RegistrationForm = () => {
+export const RegistrationForm = React.memo(() => {
 
 	const styles = useStyles();
 	const dispatch = useDispatch();
@@ -85,7 +85,7 @@ export const RegistrationForm = () => {
 	});
 
 	if(isRegistered){
-		return <Redirect to={'/login'}/>
+		return <Redirect to={'/Login'}/>
 	}
 	if(isSignIn){
 		return <Redirect to={'/'}/>
@@ -126,7 +126,7 @@ export const RegistrationForm = () => {
 									<Button type={'submit'} disabled={!(formik.isValid && formik.dirty)} variant={"contained"}
 													color={'primary'} className={styles.button}>Sign
 										up</Button>
-									<NavLink to={'/login'} style={{textDecoration: 'none', width: '100%'}}>
+									<NavLink to={'/Login'} style={{textDecoration: 'none', width: '100%'}}>
 										<Button style={{width: '100%'}} color={'secondary'} variant={"contained"}>Login</Button>
 									</NavLink>
 								</FormGroup>
@@ -138,4 +138,4 @@ export const RegistrationForm = () => {
 			<SnackbarError/>
 		</div>
 	)
-}
+})

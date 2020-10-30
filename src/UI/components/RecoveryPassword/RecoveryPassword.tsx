@@ -52,11 +52,12 @@ export type UserDataType = {
 	confirmPassword: string
 }
 
-export const RecoveryPassword = () => {
+export const RecoveryPassword = React.memo(() => {
 
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const loading = useSelector<rootReducers, boolean>(state => state.profile.loading)
+	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
 	const passwordIsUpdated = useSelector<rootReducers, boolean>(state => state.recoveryPassword.passwordIsUpdated)
 
 	// get userId from URl
@@ -78,15 +79,14 @@ export const RecoveryPassword = () => {
 			}
 			return errors
 		},
-		onSubmit: (values,{resetForm}) => {
+		onSubmit: (values, {resetForm}) => {
 			dispatch(recoveryPasswordTC(values.password, userId))
 			resetForm()
 		},
 	});
 
-	if (passwordIsUpdated) {
-		return <Redirect to={'/login'}/>
-	}
+	if (passwordIsUpdated) return <Redirect to={'/Login'}/>
+	if (isSignIn) return <Redirect to={'/'}/>
 
 	return (
 		<div className={classes.recoveryPassword}>
@@ -137,4 +137,4 @@ export const RecoveryPassword = () => {
 			<SnackbarError/>
 		</div>
 	)
-}
+})

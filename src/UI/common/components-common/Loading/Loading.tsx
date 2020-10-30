@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 
-export const Loading = () => {
+export const Loading = React.memo(() => {
 	const styles = useStyles();
 	return <LinearProgress className={styles.loading}/>
-}
+})

@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {LoginParamsType, authAPI, ResponseLoginType} from "../../DAL/api/authAPI";
+import {LoginParamsType, authAPI, IResponseLogin} from "../../DAL/api/authAPI";
 import {handleServerNetworkError} from "../../utils/error-utils";
 import {setAppStatus} from "./app-reducer";
 import {setLoadingAC} from "./profile-reducer";
@@ -10,10 +10,10 @@ const initState: StateType = {
 
 export const loginReducer = (state: StateType = initState, action: ActionType): StateType => {
 	switch (action.type) {
-		case "login/IS-SIGN-IN": {
+		case "Login/IS-SIGN-IN": {
 			return {...state, isSignIn: action.isSignIn}
 		}
-		case "login/SET-USER": {
+		case "Login/SET-USER": {
 			return {...state, ...action.data}
 		}
 		default:
@@ -22,10 +22,12 @@ export const loginReducer = (state: StateType = initState, action: ActionType): 
 }
 
 // Action
-export const isSignIn = (isSignIn: boolean) => ({type: 'login/IS-SIGN-IN', isSignIn} as const)
-export const setUser = (data: ResponseLoginType) => ({type: 'login/SET-USER', data} as const)
+
+export const isSignIn = (isSignIn: boolean) => ({type: 'Login/IS-SIGN-IN', isSignIn} as const)
+export const setUser = (data: IResponseLogin) => ({type: 'Login/SET-USER', data} as const)
 
 // Thunk
+
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
 	dispatch(setAppStatus(false))
 	dispatch(setLoadingAC(true))
@@ -55,6 +57,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 }
 
 // Types
+
 type StateType = { isSignIn: boolean }
 type ActionType = IsSignInType | ReturnType<typeof setUser>
 type IsSignInType = ReturnType<typeof isSignIn>

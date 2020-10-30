@@ -9,7 +9,7 @@ function Alert(props: AlertProps) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
-export const SnackbarError = () => {
+export const SnackbarError  = React.memo(() => {
 	const error = useSelector<rootReducers, string | null>(state => state.app.errorMessage);
 	const dispatch = useDispatch()
 
@@ -20,7 +20,6 @@ export const SnackbarError = () => {
 		dispatch(setAppErrorMessage(null));
 	}
 
-
 	const isOpen = error !== null;
 
 	return (
@@ -30,4 +29,4 @@ export const SnackbarError = () => {
 			</Alert>
 		</Snackbar>
 	)
-}
+})

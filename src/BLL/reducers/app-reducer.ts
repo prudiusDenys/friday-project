@@ -15,21 +15,13 @@ export const appReducer = (state: StateType = initState, action: ActionType): St
 			return {...state, success: action.success}
 		}
 		case "app/SET-ERROR-MESSAGE": {
-			return {
-				...state,
-				errorMessage: action.errorMessage
-			}
+			return {...state, errorMessage: action.errorMessage}
 		}
 		case "app/SET-APP-INITIALIZED": {
-			return {
-				...state,
-				isInitialized: action.value
-			}
+			return {...state, isInitialized: action.value}
 		}
-		case "app/SET-SUCCESS-MESSAGE":{
-			return {
-				...state, isSuccessfulMessage: action.value
-			}
+		case "app/SET-SUCCESS-MESSAGE": {
+			return {...state, isSuccessfulMessage: action.value}
 		}
 		default:
 			return state
@@ -54,8 +46,8 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
 	authAPI.me()
 		.then(res => {
 			dispatch(isSignIn(true))
-			dispatch(setAppInitialized(true))
 		})
+		.finally(() => dispatch(setAppInitialized(true)))
 }
 
 // Types

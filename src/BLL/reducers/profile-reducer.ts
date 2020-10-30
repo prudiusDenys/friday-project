@@ -9,7 +9,6 @@ const initialState: InitialStateType = {
 	loading: false
 }
 
-
 export const profileReducer = (state: InitialStateType = initialState, action: ActionsType):InitialStateType  => {
 	switch (action.type) {
 		case PROFILE_SET_LOADING: {
@@ -34,7 +33,6 @@ export const setLoadingAC = (loadingStatus: boolean) => {
 export const setLoadingTC = (loadingStatus: boolean) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(loadingStatus))
 }
-
 
 // types
 

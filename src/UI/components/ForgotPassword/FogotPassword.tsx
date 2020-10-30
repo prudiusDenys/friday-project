@@ -10,7 +10,7 @@ import {Loading} from "../../common/components-common/Loading/Loading";
 import {SnackbarError} from "../../common/components-common/SnackbarError/SnackbarError";
 import {NavLink, Redirect} from "react-router-dom";
 import {forgotPasswordTC} from "../../../BLL/reducers/forgotPassword-reducer";
-import { SimplePopover } from "../../common/components-common/SimplePopover/SimplePopover";
+import {SimplePopover} from "../../common/components-common/SimplePopover/SimplePopover";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,11 +51,12 @@ export type UserDataType = {
 	email: string
 }
 
-export const ForgotPassword = () => {
+export const ForgotPassword = React.memo(() => {
 
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const loading = useSelector<rootReducers, boolean>(state => state.profile.loading)
+	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
 	const isSuccessfulMessage = useSelector<rootReducers, boolean>(state => state.app.isSuccessfulMessage)
 
 	const formik = useFormik({
@@ -73,10 +74,12 @@ export const ForgotPassword = () => {
 			return errors
 		},
 		onSubmit: (values,{resetForm}) => {
-				dispatch(forgotPasswordTC(values.email))
-				resetForm()
+			dispatch(forgotPasswordTC(values.email))
+			resetForm()
 		},
 	});
+
+	if (isSignIn) return <Redirect to={'/'}/>
 
 	return (
 		<div className={classes.forgotPassword}>
@@ -99,7 +102,7 @@ export const ForgotPassword = () => {
 									</div>
 									<Button type={'submit'} disabled={!(formik.isValid && formik.dirty)} variant={"contained"}
 													color={'primary'} className={styles.button}>Send</Button>
-									<NavLink to={'/login'} style={{textDecoration: 'none', width: '100%'}}>
+									<NavLink to={'/Login'} style={{textDecoration: 'none', width: '100%'}}>
 										<Button style={{width: '100%'}} color={'secondary'} variant={"contained"}>Login</Button>
 									</NavLink>
 								</FormGroup>
@@ -112,4 +115,4 @@ export const ForgotPassword = () => {
 			{isSuccessfulMessage && <SimplePopover/>}
 		</div>
 	)
-}
+})
