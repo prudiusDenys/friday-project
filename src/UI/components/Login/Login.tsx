@@ -18,6 +18,7 @@ import {NavLink, Redirect} from "react-router-dom";
 import {rootReducers} from "../../../BLL/store";
 import {Spinner} from "../../common/components-common/spinner/Spinner";
 import {Title} from "../../common/components-common/Title/Title";
+import {initializeAppTC} from "../../../BLL/reducers/app-reducer";
 
 
 type LoginDataType = {
@@ -115,6 +116,25 @@ export const Login = React.memo(() => {
 
 	if (isSignIn) return <Redirect to={'/'}/>
 
+	const googleSignIn = () => {
+
+		const _authOk = (googleUser: any) => {
+			console.log('Auth Ok', googleUser.getBasicProfile().getId())
+		googleUser.getBasicProfile().getId()
+		}
+		const _authError = (googleUser: any) => {
+			console.log('Auth Error', googleUser)
+		}
+
+		// @ts-ignore
+		const GoogleAuth = window.gapi.auth2.getAuthInstance()
+		GoogleAuth.signIn(
+			{
+				scope: 'profile email'
+			}
+		).then(_authOk, _authError)
+	}
+
 	return (
 		<div>
 			<Title title={'Login Form'}/>
@@ -166,6 +186,7 @@ export const Login = React.memo(() => {
 														color={'secondary'}>Sign Up
 										</Button>
 									</NavLink>
+									<button onClick={googleSignIn} >Google Log In</button>
 								</FormGroup>
 							</FormControl>
 						</form>

@@ -63,7 +63,7 @@ export interface IResponseLogin extends IResponse  {
 export type LoginParamsType = {
 	email: string
 	password: string
-	rememberMe: boolean
+	rememberMe?: boolean
 }
 
 interface IResponseMe extends IResponse{
