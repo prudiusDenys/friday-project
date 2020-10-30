@@ -100,7 +100,7 @@ export const RegistrationForm = React.memo(() => {
 				<Grid item className={styles.grid}>
 					<Paper elevation={3} style={{padding: '30px'}}>
 						<div className={styles.registration}>
-							<h2 style={{margin: '0 0 30px 0'}}>Please fill in all fields</h2>
+							<h2 style={{margin: '0 0 30px 0', color: '#666'}}>Please fill in all fields</h2>
 						</div>
 						<form className={classes.form} onSubmit={formik.handleSubmit}>
 							<FormControl className={styles.formControl}>

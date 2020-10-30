@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			alignItems: 'center'
 		},
 		formLabel: {
-			margin: '10px 0 10px 0'
+			margin: '0 0 10px 0'
 		},
 		inputBox: {
 			position: 'relative',
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 		errMessage: {
 			position: 'absolute',
-			bottom: '-16px',
+			bottom: '6px',
 			left: '0',
 			color: '#d82626',
 
@@ -126,19 +126,19 @@ export const Login = React.memo(() => {
 							<FormControl className={styles.formControl}>
 								<FormGroup>
 									<div className={styles.inputBox}>
-										<TextField style={{width: '100%'}}
+										<TextField style={{width: '100%',paddingBottom: '30px'}}
 															 type={'email'}
 															 label={'Email'}
-															 margin={'normal'}
+															 variant={"outlined"}
 															 error={formik.errors.email ? true : undefined}
 															 {...formik.getFieldProps('email')}/>
 										{formik.errors.email && <div className={styles.errMessage}>{formik.errors.email}</div>}
 									</div>
 									<div className={styles.inputBox}>
-										<TextField style={{width: '100%'}}
+										<TextField style={{width: '100%', paddingBottom: '30px'}}
 															 type={'password'}
 															 label={'Password'}
-															 margin={'normal'}
+															 variant={"outlined"}
 															 error={formik.errors.password ? true : undefined}
 															 {...formik.getFieldProps('password')}/>
 										{formik.errors.password && <div className={styles.errMessage}>{formik.errors.password}</div>}
