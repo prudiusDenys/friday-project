@@ -23,6 +23,7 @@ const App = () => {
 
 
 
+	useEffect(()=>{
 		function init(){
 			// @ts-ignore
 			window.gapi.load('auth2', function() {
@@ -32,6 +33,9 @@ const App = () => {
 				}).then(()=> console.log('OK'), ()=>{console.log('Error1')})
 			});
 		}
+	},[])
+
+
 
 	if (!isInitialized) return <CircleLoading/>
 
