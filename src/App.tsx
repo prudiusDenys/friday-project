@@ -10,6 +10,8 @@ import {RecoveryPassword} from "./UI/components/RecoveryPassword/RecoveryPasswor
 import {ForgotPassword} from './UI/components/ForgotPassword/FogotPassword';
 import {initializeAppTC} from "./BLL/reducers/app-reducer";
 import {CircleLoading} from "./UI/common/components-common/Loading/CircleLoading";
+import {CardsPack} from "./UI/components/CardsPack/CardsPack";
+import {MyModules} from "./UI/components/MyModules/MyModules";
 
 const App = () => {
 
@@ -33,13 +35,15 @@ const App = () => {
 
 	return (
 		<HashRouter>
-				<div className="App">
-					<Route exact path={'/'} render={() => <Profile/>}/>
-					<Route path={'/registration'} render={() => <RegistrationForm/>}/>
-					<Route path={'/Login'} render={() => <Login/>}/>
-					<Route path={'/forgotPassword'} render={() => <ForgotPassword/>}/>
-					<Route path={'/recovery/:userId'} render={() => <RecoveryPassword/>}/>
-				</div>
+			<div className="App">
+				<Route exact path={'/'} render={() => <Profile/>}/>
+				<Route path={'/registration'} render={() => <RegistrationForm/>}/>
+				<Route path={'/Login'} render={() => <Login/>}/>
+				<Route path={'/forgotPassword'} render={() => <ForgotPassword/>}/>
+				<Route path={'/recovery/:userId'} render={() => <RecoveryPassword/>}/>
+				<Route path={'/allModules'} render={() => <CardsPack/>}/> {/*Public packs*/}
+				<Route path={'/myModules'} render={() => <MyModules/>}/> {/*Private packs*/}
+			</div>
 		</HashRouter>
 	);
 }

@@ -26,7 +26,6 @@ export const loginReducer = (state: StateType = initState, action: ActionType): 
 			return {...state, isSignIn: action.isSignIn}
 		}
 		case "Login/SET-USER": {
-			debugger
 			return {...state, ...action.data}
 		}
 		default:
@@ -46,9 +45,8 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
 	authAPI.login(data)
 		.then(res => {
-			debugger
-			dispatch(isSignIn(true))
 			dispatch(setUser(res.data))
+			dispatch(isSignIn(true))
 			dispatch(setAppStatus(true))
 		})
 		.catch(err => {
@@ -65,6 +63,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 			dispatch(isSignIn(false))
 		})
 		.catch(err => {
+			debugger
 			handleServerNetworkError(err, dispatch)
 		})
 		.finally(() => dispatch(setLoadingAC(false)))

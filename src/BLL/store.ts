@@ -8,6 +8,7 @@ import {recoveryPasswordReducer} from "./reducers/recoveryPassword-reducer";
 import {forgotPasswordReducer} from "./reducers/forgotPassword-reducer";
 import {cardsPackReducer} from "./reducers/cardsPack-reducer";
 import {cardsCardReducer} from "./reducers/cardsCard-reducer";
+import {myModulesReducer} from "./reducers/myModules-reducer";
 
 const reducers = combineReducers({
 	profile: profileReducer,
@@ -17,6 +18,7 @@ const reducers = combineReducers({
 	recoveryPassword: recoveryPasswordReducer,
 	forgotPassword: forgotPasswordReducer,
 	cardsPack: cardsPackReducer,
+	myModules: myModulesReducer,
 	cardsCard: cardsCardReducer
 })
 

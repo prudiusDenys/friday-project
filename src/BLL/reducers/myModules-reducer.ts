@@ -24,10 +24,10 @@ const initialState: Array<InitialStateType> = [
 ]
 
 
-export const cardsPackReducer = (state: Array<InitialStateType> = initialState, action: ActionType): Array<InitialStateType> => {
+export const myModulesReducer = (state: Array<InitialStateType> = initialState, action: ActionType): Array<InitialStateType> => {
 	switch (action.type) {
-		case "cardsPack/SET-CARDS-PACK": {
-			return [...action.cardsPacks]
+		case "myModules/SET-CARDS-PACK": {
+			return [...action.myModules]
 		}
 		default:
 			return state
@@ -37,17 +37,17 @@ export const cardsPackReducer = (state: Array<InitialStateType> = initialState, 
 
 //actions
 
-const setCardsPackAC = (cardsPacks: Array<ICardsPacks>) => {
-	return {type: 'cardsPack/SET-CARDS-PACK', cardsPacks} as const
+const setMyModulesAC = (myModules: Array<ICardsPacks>) => {
+	return {type: 'myModules/SET-CARDS-PACK', myModules} as const
 }
 
 // thunks
 
-export const getCardsPackTC = () => (dispatch: Dispatch) => {
+export const getMyModulesTC = (userId: string) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
-	cardsAPI.getCardsPack()
+	cardsAPI.getMyModules(userId)
 		.then(res => {
-			dispatch(setCardsPackAC(res.data.cardPacks))
+			dispatch(setMyModulesAC(res.data.cardPacks))
 		})
 		.catch(err => {
 			handleServerNetworkError(err, dispatch)
@@ -75,6 +75,6 @@ type InitialStateType = {
 	_id: string,
 }
 
-type ActionType = ReturnType<typeof setCardsPackAC>
+type ActionType = ReturnType<typeof setMyModulesAC>
 
 

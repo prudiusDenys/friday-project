@@ -1,22 +1,23 @@
 import React, {useEffect, useMemo} from "react";
-import classes from "./CardsPack.module.scss";
+import classes from "./MyModules.module.scss";
 import {useTable} from "react-table";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
-import {getCardsPackTC} from "../../../BLL/reducers/cardsPack-reducer";
 import {ICardsPacks} from "../../../DAL/api/cardsAPI";
+import {getMyModulesTC} from "../../../BLL/reducers/myModules-reducer";
 import {Redirect} from "react-router-dom";
 
-export const CardsPack = React.memo(() => {
+export const MyModules = React.memo(() => {
 
 	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
-	const cardsPack = useSelector<rootReducers, Array<ICardsPacks>>(state => state.cardsPack)
+	const userId = useSelector<rootReducers, string>(state => state.login._id)
+	const cardsPack = useSelector<rootReducers, Array<ICardsPacks>>(state => state.myModules)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
 		// do query to the server to get all packs of cards (userID to get only private packs)
-		dispatch(getCardsPackTC())
-	}, [dispatch])
+		dispatch(getMyModulesTC(userId))
+	}, [userId, dispatch])
 
 
 	const data = useMemo(() => cardsPack, [cardsPack])

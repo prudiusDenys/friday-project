@@ -7,7 +7,7 @@ import {Title} from "../../common/components-common/Title/Title";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
 import {Loading} from "../../common/components-common/Loading/Loading";
-import {NavLink, Redirect, } from "react-router-dom";
+import {NavLink, Redirect,} from "react-router-dom";
 import {userRegisterTC} from "../../../BLL/reducers/registration-reducer";
 import {SnackbarError} from "../../common/components-common/SnackbarError/SnackbarError";
 
@@ -71,24 +71,23 @@ export const RegistrationForm = React.memo(() => {
 				errors.email = 'This field is required';
 			} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
 				errors.email = 'Invalid email address';
-			}
-			else if (!values.password) {
+			} else if (!values.password) {
 				errors.password = 'This field is required';
 			} else if (values.password.length < 8) {
 				errors.password = 'Password length should be at least 8 characters';
 			}
 			return errors
 		},
-		onSubmit: (values,{resetForm}) => {
+		onSubmit: (values, {resetForm}) => {
 			dispatch(userRegisterTC(values))
 			resetForm();
 		},
 	});
 
-	if(isRegistered){
+	if (isRegistered) {
 		return <Redirect to={'/Login'}/>
 	}
-	if(isSignIn){
+	if (isSignIn) {
 		return <Redirect to={'/'}/>
 	}
 

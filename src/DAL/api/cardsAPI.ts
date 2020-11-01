@@ -7,9 +7,12 @@ const instance = axios.create({
 })
 
 export const cardsAPI = {
-	getCardsPack(userId: any) {
-		return instance.get<ICardsPackResponse>('cards/pack', userId)
+	getCardsPack() {
+		return instance.get<ICardsPackResponse>('cards/pack')
 	},
+	getMyModules(userId: string){
+		return instance.get<ICardsPackResponse>(`cards/pack&user_id=${userId}`)
+	}
 }
 
 // types and interfaces
@@ -25,20 +28,20 @@ interface ICardsPackResponse{
 }
 
 export interface ICardsPacks {
-	cardsCount: number,
+	cardsCount: number | null,
 	created: string,
-	grade: number, //средняя оценка карточек
+	grade: number | null, //средняя оценка карточек
 	more_id: string,
 	name: string,
 	path: string, // папка
 	private: boolean,
-	rating: number, // лайки
-	shots: number, // количество попыток
+	rating: number | null, // лайки
+	shots: number | null, // количество попыток
 	type: string, // ещё будет "folder" (папка)
 	updated: string,
 	user_id: string,
 	user_name: string,
-	__v: number,
+	__v: number | null,
 	_id: string,
 }
 

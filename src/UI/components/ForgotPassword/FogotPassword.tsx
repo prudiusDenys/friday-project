@@ -73,7 +73,7 @@ export const ForgotPassword = React.memo(() => {
 
 			return errors
 		},
-		onSubmit: (values,{resetForm}) => {
+		onSubmit: (values, {resetForm}) => {
 			dispatch(forgotPasswordTC(values.email))
 			resetForm()
 		},

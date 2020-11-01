@@ -145,7 +145,7 @@ export const Login = React.memo(() => {
 							<FormControl className={styles.formControl}>
 								<FormGroup>
 									<div className={styles.inputBox}>
-										<TextField style={{width: '100%',paddingBottom: '30px'}}
+										<TextField style={{width: '100%', paddingBottom: '30px'}}
 															 type={'email'}
 															 label={'Email'}
 															 variant={"outlined"}
