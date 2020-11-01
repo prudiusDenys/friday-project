@@ -7,6 +7,7 @@ import {rootReducers} from "../../../BLL/store";
 import {Button} from "@material-ui/core";
 import {logoutTC} from "../../../BLL/reducers/login-reducer";
 import containerStyle from '../../common/css/styles/container.module.scss';
+import {CardsPack} from "../CardsPack/CardsPack";
 
 export const Profile = React.memo(() => {
 
@@ -27,6 +28,7 @@ export const Profile = React.memo(() => {
 					<div className={classes.btn}>
 						{isSignIn  && <Button variant="contained" color={"secondary"} onClick={logOutHandler}>Log out</Button>}
 					</div>
+					<CardsPack/>
 				</div>
 			</div>
 		</div>

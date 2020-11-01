@@ -6,6 +6,18 @@ import {setLoadingAC} from "./profile-reducer";
 
 const initState: StateType = {
 	isSignIn: false,
+	created: '',
+	email: '',
+	isAdmin: false,
+	name: '',
+	publicCardPacksCount: 0,
+	rememberMe: false,
+	token: '',
+	tokenDeathTime: 1604256677868,
+	updated: '',
+	verified: true,
+	__v: 0,
+	_id: '',
 }
 
 export const loginReducer = (state: StateType = initState, action: ActionType): StateType => {
@@ -14,6 +26,7 @@ export const loginReducer = (state: StateType = initState, action: ActionType): 
 			return {...state, isSignIn: action.isSignIn}
 		}
 		case "Login/SET-USER": {
+			debugger
 			return {...state, ...action.data}
 		}
 		default:
@@ -33,6 +46,7 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
 	authAPI.login(data)
 		.then(res => {
+			debugger
 			dispatch(isSignIn(true))
 			dispatch(setUser(res.data))
 			dispatch(setAppStatus(true))
@@ -58,6 +72,20 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 
 // Types
 
-type StateType = { isSignIn: boolean }
+type StateType = {
+	isSignIn: boolean,
+	created: string,
+	email: string,
+	isAdmin: boolean,
+	name: string,
+	publicCardPacksCount: number,
+	rememberMe: boolean,
+	token: string,
+	tokenDeathTime: number,
+	updated: string,
+	verified: boolean,
+	__v: number,
+	_id: string,
+}
 type ActionType = IsSignInType | ReturnType<typeof setUser>
 type IsSignInType = ReturnType<typeof isSignIn>
