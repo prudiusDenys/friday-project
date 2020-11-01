@@ -1,23 +1,25 @@
 {
   "files": {
-    "main.css": "/friday-project/static/css/main.6dc978b5.chunk.css",
-    "main.js": "/friday-project/static/js/main.efee2baa.chunk.js",
-    "main.js.map": "/friday-project/static/js/main.efee2baa.chunk.js.map",
+    "main.css": "/friday-project/static/css/main.9802394d.chunk.css",
+    "main.js": "/friday-project/static/js/main.754f96af.chunk.js",
+    "main.js.map": "/friday-project/static/js/main.754f96af.chunk.js.map",
     "runtime-main.js": "/friday-project/static/js/runtime-main.124a8b0b.js",
     "runtime-main.js.map": "/friday-project/static/js/runtime-main.124a8b0b.js.map",
-    "static/js/2.7a8b01e1.chunk.js": "/friday-project/static/js/2.7a8b01e1.chunk.js",
-    "static/js/2.7a8b01e1.chunk.js.map": "/friday-project/static/js/2.7a8b01e1.chunk.js.map",
+    "static/js/2.e7eb2ccd.chunk.js": "/friday-project/static/js/2.e7eb2ccd.chunk.js",
+    "static/js/2.e7eb2ccd.chunk.js.map": "/friday-project/static/js/2.e7eb2ccd.chunk.js.map",
     "index.html": "/friday-project/index.html",
-    "precache-manifest.3e4cbba6bab23a1a46a40280dde6a78a.js": "/friday-project/precache-manifest.3e4cbba6bab23a1a46a40280dde6a78a.js",
+    "precache-manifest.f2acb4dd00e55123964d05577c823639.js": "/friday-project/precache-manifest.f2acb4dd00e55123964d05577c823639.js",
     "service-worker.js": "/friday-project/service-worker.js",
-    "static/css/main.6dc978b5.chunk.css.map": "/friday-project/static/css/main.6dc978b5.chunk.css.map",
-    "static/js/2.7a8b01e1.chunk.js.LICENSE.txt": "/friday-project/static/js/2.7a8b01e1.chunk.js.LICENSE.txt",
+    "static/css/main.9802394d.chunk.css.map": "/friday-project/static/css/main.9802394d.chunk.css.map",
+    "static/js/2.e7eb2ccd.chunk.js.LICENSE.txt": "/friday-project/static/js/2.e7eb2ccd.chunk.js.LICENSE.txt",
+    "static/media/private.jpeg": "/friday-project/static/media/private.21d4fcd9.jpeg",
+    "static/media/publicItem.jpeg": "/friday-project/static/media/publicItem.c596a2a4.jpeg",
     "static/media/spinner.svg": "/friday-project/static/media/spinner.cceb1073.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.124a8b0b.js",
-    "static/js/2.7a8b01e1.chunk.js",
-    "static/css/main.6dc978b5.chunk.css",
-    "static/js/main.efee2baa.chunk.js"
+    "static/js/2.e7eb2ccd.chunk.js",
+    "static/css/main.9802394d.chunk.css",
+    "static/js/main.754f96af.chunk.js"
   ]
 }
