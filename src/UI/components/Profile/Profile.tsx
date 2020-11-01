@@ -7,8 +7,8 @@ import {rootReducers} from "../../../BLL/store";
 import {Button} from "@material-ui/core";
 import {logoutTC} from "../../../BLL/reducers/login-reducer";
 import containerStyle from '../../common/css/styles/container.module.scss';
-import privatePhoto from '../../assets/images/private.jpeg'
-import publicPhoto from '../../assets/images/publicItem.jpeg'
+import privatePhoto from '../../assets/images/private.jpeg';
+import publicPhoto from '../../assets/images/publicItem.jpeg';
 
 export const Profile = React.memo(() => {
 
