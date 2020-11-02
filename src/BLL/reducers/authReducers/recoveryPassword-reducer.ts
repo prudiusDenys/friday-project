@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../../DAL/api/authAPI";
-import {setLoadingAC} from "./profile-reducer";
-import {setAppErrorMessage} from "./app-reducer";
+import {authAPI} from "../../../DAL/api/authAPI";
+import {setLoadingAC} from "../profile-reducer";
+import {setAppErrorMessage} from "../app-reducer";
 
 
 const initialState = {

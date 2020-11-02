@@ -9,7 +9,7 @@ import {rootReducers} from "../../../BLL/store";
 import {Loading} from "../../common/components-common/Loading/Loading";
 import {SnackbarError} from "../../common/components-common/SnackbarError/SnackbarError";
 import {Redirect, useParams} from "react-router-dom";
-import {recoveryPasswordTC} from "../../../BLL/reducers/recoveryPassword-reducer";
+import {recoveryPasswordTC} from "../../../BLL/reducers/authReducers/recoveryPassword-reducer";
 
 
 const useStyles = makeStyles((theme: Theme) =>

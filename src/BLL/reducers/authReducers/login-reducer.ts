@@ -1,8 +1,8 @@
 import {Dispatch} from "redux";
-import {LoginParamsType, authAPI, IResponseLogin} from "../../DAL/api/authAPI";
-import {handleServerNetworkError} from "../../utils/error-utils";
-import {setAppStatus} from "./app-reducer";
-import {setLoadingAC} from "./profile-reducer";
+import {LoginParamsType, authAPI, IResponseLogin} from "../../../DAL/api/authAPI";
+import {handleServerNetworkError} from "../../../utils/error-utils";
+import {setAppStatus} from "../app-reducer";
+import {setLoadingAC} from "../profile-reducer";
 
 const initState: StateType = {
 	isSignIn: false,

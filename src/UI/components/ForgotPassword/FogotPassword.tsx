@@ -9,7 +9,7 @@ import {rootReducers} from "../../../BLL/store";
 import {Loading} from "../../common/components-common/Loading/Loading";
 import {SnackbarError} from "../../common/components-common/SnackbarError/SnackbarError";
 import {NavLink, Redirect} from "react-router-dom";
-import {forgotPasswordTC} from "../../../BLL/reducers/forgotPassword-reducer";
+import {forgotPasswordTC} from "../../../BLL/reducers/authReducers/forgotPassword-reducer";
 import {SimplePopover} from "../../common/components-common/SimplePopover/SimplePopover";
 
 

@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
 import {Loading} from "../../common/components-common/Loading/Loading";
 import {NavLink, Redirect,} from "react-router-dom";
-import {userRegisterTC} from "../../../BLL/reducers/registration-reducer";
+import {userRegisterTC} from "../../../BLL/reducers/authReducers/registration-reducer";
 import {SnackbarError} from "../../common/components-common/SnackbarError/SnackbarError";
 
 

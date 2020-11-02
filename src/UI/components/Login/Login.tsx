@@ -14,7 +14,7 @@ import {
 import {useFormik} from "formik";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
-import {loginTC} from "../../../BLL/reducers/login-reducer";
+import {loginTC} from "../../../BLL/reducers/authReducers/login-reducer";
 import {NavLink, Redirect} from "react-router-dom";
 import {rootReducers} from "../../../BLL/store";
 import {Spinner} from "../../common/components-common/spinner/Spinner";

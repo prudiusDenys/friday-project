@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../../DAL/api/authAPI";
-import {isSignIn, setUser} from "./login-reducer";
+import {isSignIn, setUser} from "./authReducers/login-reducer";
 
 const initState: StateType = {
 	errorMessage: null,

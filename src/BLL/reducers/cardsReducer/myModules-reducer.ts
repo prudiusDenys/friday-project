@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
-import {setLoadingAC} from "./profile-reducer";
-import {cardsAPI, ICardsPacks} from "../../DAL/api/cardsAPI";
-import {handleServerNetworkError} from "../../utils/error-utils";
+import {setLoadingAC} from "../profile-reducer";
+import {cardsAPI, ICardsPacks} from "../../../DAL/api/cardsAPI";
+import {handleServerNetworkError} from "../../../utils/error-utils";
 
 const initialState: Array<InitialStateType> = [
 	{

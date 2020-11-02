@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {NewCardsPackType} from "../../UI/common/components-common/AddItemWindow/AddItemWindow";
 
 
 const instance = axios.create({
@@ -10,15 +11,18 @@ export const cardsAPI = {
 	getCardsPack() {
 		return instance.get<ICardsPackResponse>('cards/pack')
 	},
-	getMyModules(userId: string){
+	getMyModules(userId: string) {
 		return instance.get<ICardsPackResponse>(`cards/pack&user_id=${userId}`)
+	},
+	addCardsPack(newCardsPack: NewCardsPackType) {
+		return instance.post('cards/pack', {cardsPack: newCardsPack})
 	}
 }
 
 // types and interfaces
 
 
-interface ICardsPackResponse{
+interface ICardsPackResponse {
 	cardPacks: Array<ICardsPacks>
 	cardPacksTotalCount: number // количество колод
 	maxCardsCount: number

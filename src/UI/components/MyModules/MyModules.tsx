@@ -4,7 +4,7 @@ import {useTable} from "react-table";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
 import {ICardsPacks} from "../../../DAL/api/cardsAPI";
-import {getMyModulesTC} from "../../../BLL/reducers/myModules-reducer";
+import {getMyModulesTC} from "../../../BLL/reducers/cardsReducer/myModules-reducer";
 import {Redirect} from "react-router-dom";
 
 export const MyModules = React.memo(() => {

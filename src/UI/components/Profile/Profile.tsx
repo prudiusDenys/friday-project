@@ -5,7 +5,7 @@ import {NavLink, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
 import {Button} from "@material-ui/core";
-import {logoutTC} from "../../../BLL/reducers/login-reducer";
+import {logoutTC} from "../../../BLL/reducers/authReducers/login-reducer";
 import containerStyle from '../../common/css/styles/container.module.scss';
 import privatePhoto from '../../assets/images/private.jpeg';
 import publicPhoto from '../../assets/images/publicItem.jpeg';

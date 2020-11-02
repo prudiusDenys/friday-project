@@ -1,8 +1,8 @@
 import {Dispatch} from "redux";
-import {UserDataType} from "../../UI/components/RegistrationForm/RegistrationForm";
-import {authAPI} from "../../DAL/api/authAPI";
-import {setLoadingAC} from "./profile-reducer";
-import {setAppErrorMessage} from "./app-reducer";
+import {UserDataType} from "../../../UI/components/RegistrationForm/RegistrationForm";
+import {authAPI} from "../../../DAL/api/authAPI";
+import {setLoadingAC} from "../profile-reducer";
+import {setAppErrorMessage} from "../app-reducer";
 
 const REGISTRATION_REGISTER_USER = ' REGISTRATION/REGISTER_USER';
 

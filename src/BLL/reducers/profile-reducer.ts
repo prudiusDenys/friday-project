@@ -21,7 +21,6 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
 	return state
 }
 
-
 //Action creators
 
 export const setLoadingAC = (loadingStatus: boolean) => {

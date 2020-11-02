@@ -1,91 +1,75 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import classes from "./CardsPack.module.scss";
-import {useTable} from "react-table";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
-import {getCardsPackTC} from "../../../BLL/reducers/cardsPack-reducer";
+import {getCardsPackTC} from "../../../BLL/reducers/cardsReducer/cardsPack-reducer";
 import {ICardsPacks} from "../../../DAL/api/cardsAPI";
 import {Redirect} from "react-router-dom";
+import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/Add';
+import {AddItemWindow} from "../../common/components-common/AddItemWindow/AddItemWindow";
+import {Table} from "../../common/components-common/Table/Table";
+
 
 export const CardsPack = React.memo(() => {
 
 	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
-	const cardsPack = useSelector<rootReducers, Array<ICardsPacks>>(state => state.cardsPack)
+	const cardsPack = useSelector<rootReducers, Array<ICardsPacks>>(state => state.cardsPack.cardPacks)
 	const dispatch = useDispatch()
+
+	const [addItemMode, setAddItemMode] = useState(false)
 
 	useEffect(() => {
 		// do query to the server to get all packs of cards (userID to get only private packs)
 		dispatch(getCardsPackTC())
 	}, [dispatch])
 
-
+	const columns = useMemo(() => {
+		return (
+			[
+				{
+					Header: 'Name',
+					accessor: 'name'
+				},
+				{
+					Header: 'cardsCount',
+					accessor: 'cardsCount'
+				},
+				{
+					Header: 'updated',
+					accessor: 'updated'
+				},
+				{
+					Header: 'url',
+					accessor: ''
+				},
+			]
+		)
+	}, [])
 	const data = useMemo(() => cardsPack, [cardsPack])
 
-	const columns = useMemo(() => [
-		{
-			Header: 'Name',
-			accessor: 'name'
-		},
-		{
-			Header: 'cardsCount',
-			accessor: 'cardsCount'
-		},
-		{
-			Header: 'updated',
-			accessor: 'updated'
-		},
-		{
-			Header: 'url',
-			accessor: ''
-		},
-	], [])
+	const AddItemHandler = () => setAddItemMode(true)
 
-	const tableInstance = useTable<any>({columns, data})
-
-	const {
-		getTableProps,
-		getTableBodyProps,
-		headerGroups,
-		rows,
-		prepareRow,
-	} = tableInstance
-
-	if (!isSignIn) return <Redirect to={'/Login'}/>
+	if (isSignIn) return <Redirect to={'/Login'}/>
 
 	return (
-		<table {...getTableProps()} className={classes.table}>
-			<thead>
+		<div className={classes.cardsPack}>
+			<div className={classes.titleBlock}>
+				<div className={classes.title}>
+					<h1>All modules</h1>
+				</div>
+				<div className={classes.icons}>
+					<SearchIcon style={{width: '30px', height: '30px', cursor: 'pointer'}}/>
+					<AddIcon style={{width: '30px', height: '30px', cursor: 'pointer', marginLeft: '20px'}}
+									 onClick={AddItemHandler}/>
+				</div>
+			</div>
 			{
-				headerGroups.map(headerGroup => (
-					<tr {...headerGroup.getHeaderGroupProps()}>
-						{
-							headerGroup.headers.map(column => (
-								<th {...column.getHeaderProps()}>
-									{
-										column.render('Header')}
-								</th>
-							))}
-					</tr>
-				))}
-			</thead>
-			<tbody {...getTableBodyProps()}>
-			{rows.map(row => {
-				prepareRow(row)
-				return (
-					<tr {...row.getRowProps()}>
-						{
-							row.cells.map(cell => {
-								return (
-									<td {...cell.getCellProps()}>
-										{
-											cell.render('Cell')}
-									</td>
-								)
-							})}
-					</tr>
-				)
-			})}
-			</tbody>
-		</table>
+				addItemMode
+				&&
+        <AddItemWindow title={'Add new module'} checkboxLabel={'Private Module'} setAddItemMode={setAddItemMode}/>
+			}
+			<Table data={data} columns={columns}/>
+		</div>
 	)
 })
