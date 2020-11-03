@@ -1,10 +1,9 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {MouseEvent, useEffect, useMemo, useState} from "react";
 import classes from "./CardsPack.module.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
 import {getCardsPackTC} from "../../../BLL/reducers/cardsReducer/cardsPack-reducer";
 import {ICardsPacks} from "../../../DAL/api/cardsAPI";
-import {Redirect} from "react-router-dom";
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 import {AddItemWindow} from "../../common/components-common/AddItemWindow/AddItemWindow";
@@ -29,7 +28,10 @@ export const CardsPack = React.memo(() => {
 			[
 				{
 					Header: 'Name',
-					accessor: 'name'
+					accessor: 'name',
+					// Cell: ({row:{original}}:any)=>(
+					// 	<button onClick={()=>console.log(original)} >Click</button>
+					// ),
 				},
 				{
 					Header: 'cardsCount',
@@ -50,7 +52,7 @@ export const CardsPack = React.memo(() => {
 
 	const AddItemHandler = () => setAddItemMode(true)
 
-	if (isSignIn) return <Redirect to={'/Login'}/>
+	// if (isSignIn) return <Redirect to={'/Login'}/>
 
 	return (
 		<div className={classes.cardsPack}>
