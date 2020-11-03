@@ -29,9 +29,6 @@ export const CardsPack = React.memo(() => {
 				{
 					Header: 'Name',
 					accessor: 'name',
-					// Cell: ({row:{original}}:any)=>(
-					// 	<button onClick={()=>console.log(original)} >Click</button>
-					// ),
 				},
 				{
 					Header: 'cardsCount',

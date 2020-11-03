@@ -41,6 +41,7 @@ export const AddItemWindow = (props: PropsType) => {
 	const dispatch = useDispatch()
 
 	const [checked, setChecked] = React.useState(false);
+	const [error, setError] = React.useState(false);
 
 	const newCardsPack: NewCardsPackType = {
 		name: newCardsPackName,
@@ -48,9 +49,18 @@ export const AddItemWindow = (props: PropsType) => {
 	}
 
 	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+		setError(false)
 		dispatch(getNewCardsPackNameAC(e.currentTarget.value))
 	}
-	const saveNewCardsPackHandler = () => dispatch(addCardsPackTC(newCardsPack))
+	const saveNewCardsPackHandler = () => {
+
+		if (!newCardsPackName) {
+			setError(true)
+		} else {
+			dispatch(addCardsPackTC(newCardsPack))
+			props.setAddItemMode(false)
+		}
+	}
 	const closeAddItemWindowHandler = () => props.setAddItemMode(false)
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setChecked(event.target.checked);
@@ -61,7 +71,8 @@ export const AddItemWindow = (props: PropsType) => {
 			<Paper elevation={3} style={{padding: '30px'}}>
 				<h2>{props.title}</h2>
 				<TextField className={styles.textField} onChange={onChangeHandler} id="standard-basic" label={props.title}
-									 variant={'outlined'} autoFocus/>
+									 variant={'outlined'} error={error}
+									 helperText={error && <span className={classes.errorSpan}>'please enter a value'</span>} autoFocus/>
 				<FormControlLabel className={styles.checkBox}
 													control={
 														<Checkbox
