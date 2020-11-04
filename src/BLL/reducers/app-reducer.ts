@@ -6,7 +6,8 @@ const initState: StateType = {
 	errorMessage: null,
 	success: true,
 	isInitialized: false,
-	isSuccessfulMessage: false
+	isSuccessfulMessage: false,
+	inputTableValue: ''
 }
 
 export const appReducer = (state: StateType = initState, action: ActionType): StateType => {
@@ -23,6 +24,9 @@ export const appReducer = (state: StateType = initState, action: ActionType): St
 		case "app/SET-SUCCESS-MESSAGE": {
 			return {...state, isSuccessfulMessage: action.value}
 		}
+		case "app/SET-INPUT-TABLE-VALUE":{
+			return {...state, inputTableValue: action.value}
+		}
 		default:
 			return state
 	}
@@ -38,6 +42,9 @@ export const setAppInitialized = (value: boolean) => {
 export const setSuccessfulMessage = (value: boolean) => {
 	return {type: 'app/SET-SUCCESS-MESSAGE', value} as const
 }
+export const setInputTableValue = (value: string) => {
+	return {type: 'app/SET-INPUT-TABLE-VALUE', value} as const
+}
 
 export const setAppStatus = (success: boolean) => ({type: 'app/SET-STATUS', success} as const)
 // Thunk
@@ -46,6 +53,7 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
 	authAPI.me()
 		.then(res => {
 			dispatch(isSignIn(true))
+			dispatch(setUser(res.data))
 		})
 		.finally(() => dispatch(setAppInitialized(true)))
 }
@@ -53,9 +61,10 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
 // Types
 type StateType = {
 	errorMessage: string | null
-	success: boolean,
+	success: boolean
 	isInitialized: boolean
 	isSuccessfulMessage: boolean
+	inputTableValue: string
 }
 
 type ActionType = AppErrorMessageType
@@ -63,5 +72,6 @@ type ActionType = AppErrorMessageType
 	| ReturnType<typeof setAppInitialized>
 	| ReturnType<typeof setUser>
 	| ReturnType<typeof setSuccessfulMessage>
+	| ReturnType<typeof setInputTableValue>
 export type AppErrorMessageType = ReturnType<typeof setAppErrorMessage>
 export type AppStatusType = ReturnType<typeof setAppStatus>

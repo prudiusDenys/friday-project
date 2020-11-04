@@ -42,6 +42,23 @@ export const cardsPackReducer = (state: InitialStateType = initialState, action:
 		case "cardsPack/SET-NEW-CARDS-PACK": {
 			return {...state, cardPacks: [action.newCardsPacks, ...state.cardPacks]}
 		}
+		case "cardsPack/DELETE-CARDS-PACK-ITEM": {
+			return {...state, cardPacks: [...state.cardPacks.filter(i => i._id !== action.id)]}
+		}
+		case "cardsPack/UPDATE-CARDS-PACK-ITEM": {
+			return {
+				...state,
+				cardPacks: [...state.cardPacks.map(i=>{
+					if(i._id === action.updatedCardsPack._id){
+						return(
+							{...i, name: action.updatedCardsPack.name}
+						)
+					}else{
+						return i
+					}
+				})]
+			}
+		}
 		default:
 			return state
 	}
@@ -62,6 +79,13 @@ export const getNewCardsPackNameAC = (name: string) => {
 	return {type: 'cardsPack/SET-NEW-CARDS-PACK-NAME', name} as const
 }
 
+export const deleteCardsPackItemAC = (id: string) => {
+	return {type: 'cardsPack/DELETE-CARDS-PACK-ITEM', id} as const
+}
+export const updateCardsPackItemAC = (updatedCardsPack: ICardsPacks) => {
+	return {type: 'cardsPack/UPDATE-CARDS-PACK-ITEM', updatedCardsPack} as const
+}
+
 // thunks
 
 export const getCardsPackTC = () => (dispatch: Dispatch) => {
@@ -75,8 +99,6 @@ export const getCardsPackTC = () => (dispatch: Dispatch) => {
 		})
 		.finally(() => dispatch(setLoadingAC(false)))
 }
-
-
 export const addCardsPackTC = (newCardsPack: NewCardsPackType) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
 	cardsAPI.addCardsPack(newCardsPack)
@@ -88,6 +110,31 @@ export const addCardsPackTC = (newCardsPack: NewCardsPackType) => (dispatch: Dis
 		})
 		.finally(() => dispatch(setLoadingAC(false)))
 }
+
+export const setNewCardsPackNameTC = (name: string, id: string) => (dispatch: Dispatch) => {
+	dispatch(setLoadingAC(true))
+	cardsAPI.setNewCardsPackName(name, id)
+		.then(res => {
+			dispatch(updateCardsPackItemAC(res.data.updatedCardsPack))
+		})
+		.catch(err => {
+			handleServerNetworkError(err, dispatch)
+		})
+		.finally(() => dispatch(setLoadingAC(false)))
+}
+
+export const deleteCardsPackItemTC = (id: string) => (dispatch: Dispatch) => {
+	dispatch(setLoadingAC(true))
+	cardsAPI.deleteCardsPackItem(id)
+		.then(res => {
+			dispatch(deleteCardsPackItemAC(res.data.deletedCardsPack._id))
+		})
+		.catch(err => {
+			handleServerNetworkError(err, dispatch)
+		})
+		.finally(() => dispatch(setLoadingAC(false)))
+}
+
 //types
 
 type InitialStateType = {
@@ -101,5 +148,7 @@ type InitialStateType = {
 type ActionType = ReturnType<typeof setCardsPackAC>
 	| ReturnType<typeof getNewCardsPackNameAC>
 	| ReturnType<typeof setNewCardsPackAC>
+	| ReturnType<typeof deleteCardsPackItemAC>
+	| ReturnType<typeof updateCardsPackItemAC>
 
 

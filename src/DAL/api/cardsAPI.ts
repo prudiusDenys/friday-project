@@ -15,12 +15,17 @@ export const cardsAPI = {
 		return instance.get<ICardsPackResponse>(`cards/pack&user_id=${userId}`)
 	},
 	addCardsPack(newCardsPack: NewCardsPackType) {
-		return instance.post('cards/pack', {cardsPack: newCardsPack})
+		return instance.post<INewCardsPackResponse>('cards/pack', {cardsPack: newCardsPack})
+	},
+	setNewCardsPackName(name: string, _id: string) {
+		return instance.put<IUpdatedCardsPackResponse>('cards/pack', {cardsPack: {name, _id}})
+	},
+	deleteCardsPackItem(id: string) {
+		return instance.delete<IDeletedCardsPackResponse>(`cards/pack?id=${id}`)
 	}
 }
 
 // types and interfaces
-
 
 interface ICardsPackResponse {
 	cardPacks: Array<ICardsPacks>
@@ -29,6 +34,24 @@ interface ICardsPackResponse {
 	minCardsCount: number
 	page: number // выбранная страница
 	pageCount: number // количество элементов на странице
+}
+
+interface IDeletedCardsPackResponse {
+	deletedCardsPack: ICardsPacks
+	token: string
+	tokenDeathTime: number
+}
+
+interface IUpdatedCardsPackResponse {
+	updatedCardsPack: ICardsPacks
+	token: string
+	tokenDeathTime: number
+}
+
+interface INewCardsPackResponse {
+	newCardsPack: ICardsPacks
+	token: string
+	tokenDeathTime: number
 }
 
 export interface ICardsPacks {

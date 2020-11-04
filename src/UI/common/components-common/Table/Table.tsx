@@ -1,19 +1,32 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import classes from "./Table.module.scss";
 import {useTable} from "react-table";
 import EditIcon from '@material-ui/icons/Edit';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {useDispatch, useSelector} from "react-redux";
+import {setInputTableValue} from "../../../../BLL/reducers/app-reducer";
+import {rootReducers} from "../../../../BLL/store";
+import {ICardsPacks} from "../../../../DAL/api/cardsAPI";
+import {IconButton} from "@material-ui/core";
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 type PropsType = {
 	data: Array<any>
 	columns: Array<any>
+	editTableItem: (name: string, id: string) => void
+	deleteTableItem: (id: string) => void
 }
 
 export const Table = React.memo((props: PropsType) => {
 
+	const dispatch = useDispatch()
+	const inputTableValue = useSelector<rootReducers, string>(state => state.app.inputTableValue)
+	const userId = useSelector<rootReducers, string>(state => state.login._id)
 	const data = props.data
 	const columns = props.columns
+
+	const [id, setId] = useState<string>('')
 
 	const tableInstance = useTable<any>({columns, data})
 
@@ -25,11 +38,27 @@ export const Table = React.memo((props: PropsType) => {
 		prepareRow,
 	} = tableInstance
 
-	const editTableItem = (id: string) => {
-		console.log(id)
+	const editTableItemHandler = (cardsPack: ICardsPacks) => {
+		setId(cardsPack._id)
+		dispatch(setInputTableValue(cardsPack.name))
 	}
-	const deleteTableItem = (id: string) => {
-		console.log(id)
+	const deleteTableItemHandler = (id: string) => {
+		props.deleteTableItem(id)
+	}
+	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+		dispatch(setInputTableValue(e.currentTarget.value))
+	}
+	const onBlurHandler = () => {
+		if (inputTableValue) {
+			props.editTableItem(inputTableValue, id)
+		}
+		setId('')
+	}
+	const onkeypressHandler = (e: any) => {
+		if (e.charCode === 13 && inputTableValue) {
+			props.editTableItem(inputTableValue, id)
+			setId('')
+		}
 	}
 
 	return (
@@ -58,12 +87,30 @@ export const Table = React.memo((props: PropsType) => {
 								if (i === 0) {
 									return (
 										<td {...cell.getCellProps()} style={{display: "flex", alignItems: 'center'}}>
-											<EditIcon className={classes.icon}
-																onClick={() => editTableItem(cell.row.original._id)}/>
-											<HighlightOffIcon className={classes.icon} style={{color: '#f50057'}}
-																				onClick={() => deleteTableItem(cell.row.original._id)}/>
 											{
-												cell.render('Cell')}
+												id !== cell.row.original._id ?
+													<IconButton disabled={userId !== cell.row.original.user_id} className={classes.button}
+																			onClick={() => editTableItemHandler(cell.row.original)}>
+														<EditIcon className={classes.icon}
+																			color={userId !== cell.row.original.user_id ? 'disabled' : 'primary'}/>
+													</IconButton>
+													:
+													<IconButton className={classes.button} onClick={() => setId('')}>
+														<CloseIcon className={classes.icon} color={'primary'}/>
+													</IconButton>
+											}
+											<IconButton disabled={userId !== cell.row.original.user_id} className={classes.button}
+																	onClick={() => deleteTableItemHandler(cell.row.original._id)}>
+												<DeleteSweepIcon className={classes.icon}
+																				 color={userId !== cell.row.original.user_id ? 'disabled' : 'secondary'}/>
+											</IconButton>
+
+											{
+												id === cell.row.original._id ?
+													<input className={classes.input} type="text" onKeyPress={onkeypressHandler}
+																 onChange={onChangeHandler} onBlur={onBlurHandler}
+																 value={inputTableValue} autoFocus/> : cell.render('Cell')
+											}
 										</td>
 									)
 								}

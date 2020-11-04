@@ -15,8 +15,6 @@ export const Profile = React.memo(() => {
 	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
 	const dispatch = useDispatch()
 
-	debugger
-
 	const logOutHandler = useCallback(() => {
 		dispatch(logoutTC())
 	}, [dispatch])
