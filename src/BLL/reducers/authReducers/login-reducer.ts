@@ -34,15 +34,15 @@ export const loginReducer = (state: StateType = initState, action: ActionType): 
 }
 
 // Action
-
 export const isSignIn = (isSignIn: boolean) => ({type: 'Login/IS-SIGN-IN', isSignIn} as const)
 export const setUser = (data: IResponseLogin) => ({type: 'Login/SET-USER', data} as const)
 
 // Thunk
-
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
+
 	dispatch(setAppStatus(false))
 	dispatch(setLoadingAC(true))
+
 	authAPI.login(data)
 		.then(res => {
 			dispatch(setUser(res.data))
@@ -57,13 +57,14 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
 }
 
 export const logoutTC = () => (dispatch: Dispatch) => {
+
 	dispatch(setLoadingAC(true))
+
 	authAPI.logout()
 		.then(res => {
 			dispatch(isSignIn(false))
 		})
 		.catch(err => {
-			debugger
 			handleServerNetworkError(err, dispatch)
 		})
 		.finally(() => dispatch(setLoadingAC(false)))

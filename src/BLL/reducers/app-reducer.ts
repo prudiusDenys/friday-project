@@ -1,8 +1,6 @@
-import {Dispatch} from "redux";
 import {authAPI} from "../../DAL/api/authAPI";
 import {isSignIn, setUser} from "./authReducers/login-reducer";
-import {getCardsPackTC, setCardsPackAC} from "./cardsReducer/cardsPack-reducer";
-import {packsAPI} from "../../DAL/api/packsAPI";
+import {handleServerNetworkError} from "../../utils/error-utils";
 
 const initState: StateType = {
 	errorMessage: null,
@@ -47,16 +45,17 @@ export const setSuccessfulMessage = (value: boolean) => {
 export const setInputTableValue = (value: string) => {
 	return {type: 'app/SET-INPUT-TABLE-VALUE', value} as const
 }
-
 export const setAppStatus = (success: boolean) => ({type: 'app/SET-STATUS', success} as const)
-// Thunk
 
+// Thunk
 export const initializeAppTC = () => (dispatch: any) => {
 	authAPI.me()
 		.then(res => {
 			dispatch(isSignIn(true))
 			dispatch(setUser(res.data))
-			dispatch(getCardsPackTC())
+		})
+		.catch(err => {
+			handleServerNetworkError(err, dispatch)
 		})
 		.finally(() => dispatch(setAppInitialized(true)))
 }

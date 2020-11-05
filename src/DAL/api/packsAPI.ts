@@ -8,8 +8,8 @@ const instance = axios.create({
 })
 
 export const packsAPI = {
-	getCardsPack() {
-		return instance.get<ICardsPackResponse>('cards/pack?pageCount=20')
+	getCardsPack(rows: number, currentPage: number) {
+		return instance.get<ICardsPackResponse>(`cards/pack?pageCount=${rows}&page=${currentPage}`)
 	},
 	getMyModules(userId: string) {
 		return instance.get<ICardsPackResponse>(`cards/pack&user_id=${userId}`)

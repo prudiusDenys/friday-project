@@ -17,7 +17,6 @@ import {Table} from "../../common/components-common/Table/Table";
 import {CircleLoading} from "../../common/components-common/Loading/CircleLoading";
 import {Redirect} from "react-router-dom";
 
-
 export const CardsPack = React.memo(() => {
 
 	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
@@ -32,7 +31,7 @@ export const CardsPack = React.memo(() => {
 
 	useEffect(() => {
 		// do query to the server to get all packs of cards (userID to get only private packs)
-		dispatch(getCardsPackTC())
+		dispatch(getCardsPackTC(20, 2))
 	}, [dispatch])
 
 	const columns = useMemo(() => {

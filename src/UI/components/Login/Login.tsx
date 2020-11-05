@@ -20,19 +20,6 @@ import {rootReducers} from "../../../BLL/store";
 import {Spinner} from "../../common/components-common/spinner/Spinner";
 import {Title} from "../../common/components-common/Title/Title";
 
-
-type LoginDataType = {
-	email: string,
-	password: string,
-	rememberMe: boolean
-}
-
-type LoginErrorType = {
-	email?: string,
-	password?: string,
-	rememberMe?: boolean
-}
-
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		gridItem: {
@@ -194,3 +181,16 @@ export const Login = React.memo(() => {
 		</div>
 	)
 })
+
+
+type LoginDataType = {
+	email: string,
+	password: string,
+	rememberMe: boolean
+}
+
+type LoginErrorType = {
+	email?: string,
+	password?: string,
+	rememberMe?: boolean
+}
