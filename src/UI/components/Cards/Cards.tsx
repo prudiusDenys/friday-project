@@ -1,63 +1,70 @@
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
-import classes from "./CardsPack.module.scss";
+import classes from "./Cards.module.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
 import {
 	deleteCardsPackItemTC,
-	getCardsPackTC,
 	inputSearchValueAC,
 	searchCardsPackTC,
 	setNewCardsPackNameTC
 } from "../../../BLL/reducers/cardsReducer/cardsPack-reducer";
-import {ICardsPacks} from "../../../DAL/api/packsAPI";
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 import {AddItemWindow} from "../../common/components-common/AddItemWindow/AddItemWindow";
 import {Table} from "../../common/components-common/Table/Table";
 import {CircleLoading} from "../../common/components-common/Loading/CircleLoading";
 import {Redirect} from "react-router-dom";
+import {getCardsTC} from "../../../BLL/reducers/cardsReducer/cardsCard-reducer";
+import {ICards} from "../../../DAL/api/cardsAPI";
 
 
-export const CardsPack = React.memo(() => {
+export const Cards = React.memo(() => {
 
 	const isSignIn = useSelector<rootReducers, boolean>(state => state.login.isSignIn)
-	const cardsPack = useSelector<rootReducers, Array<ICardsPacks>>(state => state.cardsPack.cardPacks)
+	const cardsPackID = useSelector<rootReducers, string | null>(state => state.cardsPack.cardsPackId)
+	const cards = useSelector<rootReducers, Array<ICards>>(state => state.cards.cards)
 	const loading = useSelector<rootReducers, boolean>(state => state.profile.loading)
+
+
 	const inputValue = useSelector<rootReducers, string>(state => state.cardsPack.inputSearchValue)
 	const dispatch = useDispatch()
-
-
 	const [addItemMode, setAddItemMode] = useState(false)
 	const [searchMode, setSearchMode] = useState(false)
 
 	useEffect(() => {
-		// do query to the server to get all packs of cards (userID to get only private packs)
-		dispatch(getCardsPackTC())
+		if (cardsPackID) {
+			dispatch(getCardsTC(cardsPackID))
+		}
 	}, [dispatch])
 
 	const columns = useMemo(() => {
 		return (
 			[
 				{
-					Header: 'Name',
-					accessor: 'name',
+					Header: 'Question',
+					accessor: 'question',
 				},
 				{
-					Header: 'cardsCount',
-					accessor: 'cardsCount'
+					Header: 'Answer',
+					accessor: 'answer'
 				},
 				{
-					Header: 'updated',
+					Header: 'Grade',
+					accessor: 'grade'
+				},
+				{
+					Header: 'Updated',
 					accessor: 'updated'
 				},
 				{
-					Header: 'url',
+					Header: 'Url',
 					accessor: ''
-				},
+				}
 			]
 		)
 	}, [])
-	const data = useMemo(() => cardsPack, [cardsPack])
+
+	const data = useMemo(() => cards, [cards])
 
 	const AddItemHandler = () => setAddItemMode(true)
 
@@ -98,7 +105,7 @@ export const CardsPack = React.memo(() => {
 			{loading && <CircleLoading/>}
 			<div className={classes.titleBlock}>
 				<div className={classes.title}>
-					<h1>All modules</h1>
+					<h1>Cards</h1>
 				</div>
 				<div className={classes.icons}>
 					{

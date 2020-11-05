@@ -3,7 +3,7 @@ import classes from "./MyModules.module.scss";
 import {useTable} from "react-table";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducers} from "../../../BLL/store";
-import {ICardsPacks} from "../../../DAL/api/cardsAPI";
+import {ICardsPacks} from "../../../DAL/api/packsAPI";
 import {getMyModulesTC} from "../../../BLL/reducers/cardsReducer/myModules-reducer";
 import {Redirect} from "react-router-dom";
 

@@ -1,6 +1,8 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../../DAL/api/authAPI";
 import {isSignIn, setUser} from "./authReducers/login-reducer";
+import {getCardsPackTC, setCardsPackAC} from "./cardsReducer/cardsPack-reducer";
+import {packsAPI} from "../../DAL/api/packsAPI";
 
 const initState: StateType = {
 	errorMessage: null,
@@ -24,7 +26,7 @@ export const appReducer = (state: StateType = initState, action: ActionType): St
 		case "app/SET-SUCCESS-MESSAGE": {
 			return {...state, isSuccessfulMessage: action.value}
 		}
-		case "app/SET-INPUT-TABLE-VALUE":{
+		case "app/SET-INPUT-TABLE-VALUE": {
 			return {...state, inputTableValue: action.value}
 		}
 		default:
@@ -49,11 +51,12 @@ export const setInputTableValue = (value: string) => {
 export const setAppStatus = (success: boolean) => ({type: 'app/SET-STATUS', success} as const)
 // Thunk
 
-export const initializeAppTC = () => (dispatch: Dispatch) => {
+export const initializeAppTC = () => (dispatch: any) => {
 	authAPI.me()
 		.then(res => {
 			dispatch(isSignIn(true))
 			dispatch(setUser(res.data))
+			dispatch(getCardsPackTC())
 		})
 		.finally(() => dispatch(setAppInitialized(true)))
 }

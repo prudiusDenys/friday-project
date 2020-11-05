@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {setLoadingAC} from "../profile-reducer";
-import {cardsAPI, ICardsPacks} from "../../../DAL/api/cardsAPI";
+import {packsAPI, ICardsPacks} from "../../../DAL/api/packsAPI";
 import {handleServerNetworkError} from "../../../utils/error-utils";
 
 const initialState: Array<InitialStateType> = [
@@ -45,7 +45,7 @@ const setMyModulesAC = (myModules: Array<ICardsPacks>) => {
 
 export const getMyModulesTC = (userId: string) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
-	cardsAPI.getMyModules(userId)
+	packsAPI.getMyModules(userId)
 		.then(res => {
 			dispatch(setMyModulesAC(res.data.cardPacks))
 		})

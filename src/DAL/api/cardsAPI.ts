@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {NewCardsPackType} from "../../UI/common/components-common/AddItemWindow/AddItemWindow";
 
 
 const instance = axios.create({
@@ -8,68 +7,49 @@ const instance = axios.create({
 })
 
 export const cardsAPI = {
-	getCardsPack() {
-		return instance.get<ICardsPackResponse>('cards/pack?pageCount=20')
+	getCards(id: string) {
+		return instance.get<ICardsResponse>(`cards/card?cardsPack_id=${id}&pageCount=20`)
 	},
-	getMyModules(userId: string) {
-		return instance.get<ICardsPackResponse>(`cards/pack&user_id=${userId}`)
+	setCard(card: any) {
+		return instance.post<any>(`cards/card`, card)
 	},
-	addCardsPack(newCardsPack: NewCardsPackType) {
-		return instance.post<INewCardsPackResponse>('cards/pack', {cardsPack: newCardsPack})
+	setNewCardName(_id: string) {
+		return instance.put<any>('cards/pack', {card: {_id}})
 	},
-	setNewCardsPackName(name: string, _id: string) {
-		return instance.put<IUpdatedCardsPackResponse>('cards/pack', {cardsPack: {name, _id}})
+	deleteCard(id: string) {
+		return instance.delete<any>(`cards/card?id=${id}`)
 	},
-	deleteCardsPackItem(id: string) {
-		return instance.delete<IDeletedCardsPackResponse>(`cards/pack?id=${id}`)
+	searchCards(searchValue: string) {
+		return instance.get<any>(`cards/card?cardAnswer=${searchValue}&pageCount=10`)
 	}
 }
 
 // types and interfaces
 
-interface ICardsPackResponse {
-	cardPacks: Array<ICardsPacks>
-	cardPacksTotalCount: number // количество колод
-	maxCardsCount: number
-	minCardsCount: number
-	page: number // выбранная страница
-	pageCount: number // количество элементов на странице
-}
-
-interface IDeletedCardsPackResponse {
-	deletedCardsPack: ICardsPacks
+export interface ICardsResponse {
+	cards: Array<ICards>
+	cardsTotalCount: number | null
+	maxGrade: number | null
+	minGrade: number | null
+	page: number | null
+	pageCount: number | null
 	token: string
-	tokenDeathTime: number
+	tokenDeathTime: number | null
 }
 
-interface IUpdatedCardsPackResponse {
-	updatedCardsPack: ICardsPacks
-	token: string
-	tokenDeathTime: number
+export interface ICards {
+	answer: string
+	cardsPack_id: string
+	comments: string
+	created: string
+	grade: number | null
+	more_id: string
+	question: string
+	rating: number | null
+	shots: number | null
+	type: string
+	updated: string
+	user_id: string
+	__v: number | null
+	_id: string
 }
-
-interface INewCardsPackResponse {
-	newCardsPack: ICardsPacks
-	token: string
-	tokenDeathTime: number
-}
-
-export interface ICardsPacks {
-	cardsCount: number | null,
-	created: string,
-	grade: number | null, //средняя оценка карточек
-	more_id: string,
-	name: string,
-	path: string, // папка
-	private: boolean,
-	rating: number | null, // лайки
-	shots: number | null, // количество попыток
-	type: string, // ещё будет "folder" (папка)
-	updated: string,
-	user_id: string,
-	user_name: string,
-	__v: number | null,
-	_id: string,
-}
-
-

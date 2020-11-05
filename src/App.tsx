@@ -12,6 +12,7 @@ import {initializeAppTC} from "./BLL/reducers/app-reducer";
 import {CircleLoading} from "./UI/common/components-common/Loading/CircleLoading";
 import {CardsPack} from "./UI/components/CardsPack/CardsPack";
 import {MyModules} from "./UI/components/MyModules/MyModules";
+import {Cards} from './UI/components/Cards/Cards';
 
 const App = () => {
 
@@ -42,6 +43,7 @@ const App = () => {
 				<Route path={'/forgotPassword'} render={() => <ForgotPassword/>}/>
 				<Route path={'/recovery/:userId'} render={() => <RecoveryPassword/>}/>
 				<Route path={'/allModules'} render={() => <CardsPack/>}/> {/*Public packs*/}
+				<Route path={'/cards'} render={() => <Cards/>}/>
 				<Route path={'/myModules'} render={() => <MyModules/>}/> {/*Private packs*/}
 			</div>
 		</HashRouter>

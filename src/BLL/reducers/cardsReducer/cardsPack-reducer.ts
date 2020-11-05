@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {setLoadingAC} from "../profile-reducer";
-import {cardsAPI, ICardsPacks} from "../../../DAL/api/cardsAPI";
+import {packsAPI, ICardsPacks} from "../../../DAL/api/packsAPI";
 import {handleServerNetworkError} from "../../../utils/error-utils";
 import {NewCardsPackType} from "../../../UI/common/components-common/AddItemWindow/AddItemWindow";
 
@@ -28,6 +28,8 @@ const initialState: InitialStateType = {
 		name: '',
 		private: false
 	},
+	inputSearchValue: '',
+	cardsPackId: null
 }
 
 
@@ -48,15 +50,25 @@ export const cardsPackReducer = (state: InitialStateType = initialState, action:
 		case "cardsPack/UPDATE-CARDS-PACK-ITEM": {
 			return {
 				...state,
-				cardPacks: [...state.cardPacks.map(i=>{
-					if(i._id === action.updatedCardsPack._id){
-						return(
+				cardPacks: [...state.cardPacks.map(i => {
+					if (i._id === action.updatedCardsPack._id) {
+						return (
 							{...i, name: action.updatedCardsPack.name}
 						)
-					}else{
+					} else {
 						return i
 					}
 				})]
+			}
+		}
+		case "cardsPack/SET-SEARCH-VALUE": {
+			return {
+				...state, inputSearchValue: action.inputValue
+			}
+		}
+		case "cardsPack/SET-PACK-ID": {
+			return {
+				...state, cardsPackId: action.cardsId
 			}
 		}
 		default:
@@ -67,7 +79,7 @@ export const cardsPackReducer = (state: InitialStateType = initialState, action:
 
 //actions
 
-const setCardsPackAC = (cardsPacks: Array<ICardsPacks>) => {
+export const setCardsPackAC = (cardsPacks: Array<ICardsPacks>) => {
 	return {type: 'cardsPack/SET-CARDS-PACK', cardsPacks} as const
 }
 
@@ -85,12 +97,18 @@ export const deleteCardsPackItemAC = (id: string) => {
 export const updateCardsPackItemAC = (updatedCardsPack: ICardsPacks) => {
 	return {type: 'cardsPack/UPDATE-CARDS-PACK-ITEM', updatedCardsPack} as const
 }
+export const inputSearchValueAC = (inputValue: string) => {
+	return {type: 'cardsPack/SET-SEARCH-VALUE', inputValue} as const
+}
+export const setCardsPackIdAC = (cardsId: string) => {
+	return {type: 'cardsPack/SET-PACK-ID', cardsId} as const
+}
 
 // thunks
 
 export const getCardsPackTC = () => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
-	cardsAPI.getCardsPack()
+	packsAPI.getCardsPack()
 		.then(res => {
 			dispatch(setCardsPackAC(res.data.cardPacks))
 		})
@@ -101,7 +119,7 @@ export const getCardsPackTC = () => (dispatch: Dispatch) => {
 }
 export const addCardsPackTC = (newCardsPack: NewCardsPackType) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
-	cardsAPI.addCardsPack(newCardsPack)
+	packsAPI.addCardsPack(newCardsPack)
 		.then(res => {
 			dispatch(setNewCardsPackAC(res.data.newCardsPack))
 		})
@@ -113,7 +131,7 @@ export const addCardsPackTC = (newCardsPack: NewCardsPackType) => (dispatch: Dis
 
 export const setNewCardsPackNameTC = (name: string, id: string) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
-	cardsAPI.setNewCardsPackName(name, id)
+	packsAPI.setNewCardsPackName(name, id)
 		.then(res => {
 			dispatch(updateCardsPackItemAC(res.data.updatedCardsPack))
 		})
@@ -125,9 +143,20 @@ export const setNewCardsPackNameTC = (name: string, id: string) => (dispatch: Di
 
 export const deleteCardsPackItemTC = (id: string) => (dispatch: Dispatch) => {
 	dispatch(setLoadingAC(true))
-	cardsAPI.deleteCardsPackItem(id)
+	packsAPI.deleteCardsPackItem(id)
 		.then(res => {
 			dispatch(deleteCardsPackItemAC(res.data.deletedCardsPack._id))
+		})
+		.catch(err => {
+			handleServerNetworkError(err, dispatch)
+		})
+		.finally(() => dispatch(setLoadingAC(false)))
+}
+export const searchCardsPackTC = (searchValue: string) => (dispatch: Dispatch) => {
+	dispatch(setLoadingAC(true))
+	packsAPI.searchCardsPack(searchValue)
+		.then(res => {
+			dispatch(setCardsPackAC(res.data.cardPacks))
 		})
 		.catch(err => {
 			handleServerNetworkError(err, dispatch)
@@ -143,6 +172,8 @@ type InitialStateType = {
 		name: string,
 		private: boolean
 	},
+	inputSearchValue: string,
+	cardsPackId: null | string
 }
 
 type ActionType = ReturnType<typeof setCardsPackAC>
@@ -150,5 +181,5 @@ type ActionType = ReturnType<typeof setCardsPackAC>
 	| ReturnType<typeof setNewCardsPackAC>
 	| ReturnType<typeof deleteCardsPackItemAC>
 	| ReturnType<typeof updateCardsPackItemAC>
-
-
+	| ReturnType<typeof inputSearchValueAC>
+	| ReturnType<typeof setCardsPackIdAC>

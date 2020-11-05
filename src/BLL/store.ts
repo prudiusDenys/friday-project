@@ -7,8 +7,8 @@ import {appReducer} from "./reducers/app-reducer";
 import {recoveryPasswordReducer} from "./reducers/authReducers/recoveryPassword-reducer";
 import {forgotPasswordReducer} from "./reducers/authReducers/forgotPassword-reducer";
 import {cardsPackReducer} from "./reducers/cardsReducer/cardsPack-reducer";
-import {cardsCardReducer} from "./reducers/cardsReducer/cardsCard-reducer";
 import {myModulesReducer} from "./reducers/cardsReducer/myModules-reducer";
+import {cardsReducer} from "./reducers/cardsReducer/cardsCard-reducer";
 
 const reducers = combineReducers({
 	profile: profileReducer,
@@ -19,7 +19,7 @@ const reducers = combineReducers({
 	forgotPassword: forgotPasswordReducer,
 	cardsPack: cardsPackReducer,
 	myModules: myModulesReducer,
-	cardsCard: cardsCardReducer
+	cards: cardsReducer
 })
 
 export type rootReducers = ReturnType<typeof reducers>

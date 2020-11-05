@@ -5,11 +5,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import {useDispatch, useSelector} from "react-redux";
 import {setInputTableValue} from "../../../../BLL/reducers/app-reducer";
 import {rootReducers} from "../../../../BLL/store";
-import {ICardsPacks} from "../../../../DAL/api/cardsAPI";
+import {ICardsPacks} from "../../../../DAL/api/packsAPI";
 import {IconButton} from "@material-ui/core";
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import CloseIcon from '@material-ui/icons/Close';
-
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import {NavLink} from "react-router-dom";
+import {setCardsPackIdAC} from "../../../../BLL/reducers/cardsReducer/cardsPack-reducer";
 
 type PropsType = {
 	data: Array<any>
@@ -29,7 +31,6 @@ export const Table = React.memo((props: PropsType) => {
 	const [id, setId] = useState<string>('')
 
 	const tableInstance = useTable<any>({columns, data})
-
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -59,6 +60,9 @@ export const Table = React.memo((props: PropsType) => {
 			props.editTableItem(inputTableValue, id)
 			setId('')
 		}
+	}
+	const getPackIdHandler = (id: string) => {
+		dispatch(setCardsPackIdAC(id))
 	}
 
 	return (
@@ -101,10 +105,14 @@ export const Table = React.memo((props: PropsType) => {
 											}
 											<IconButton disabled={userId !== cell.row.original.user_id} className={classes.button}
 																	onClick={() => deleteTableItemHandler(cell.row.original._id)}>
-												<DeleteSweepIcon className={classes.icon}
-																				 color={userId !== cell.row.original.user_id ? 'disabled' : 'secondary'}/>
+												<DeleteSweepIcon color={userId !== cell.row.original.user_id ? 'disabled' : 'secondary'}/>
 											</IconButton>
-
+											<NavLink to={'/cards'}>
+												<IconButton color={"primary"} className={classes.button}
+																		onClick={() => getPackIdHandler(cell.row.original._id)}>
+													<OpenInNewIcon/>
+												</IconButton>
+											</NavLink>
 											{
 												id === cell.row.original._id ?
 													<input className={classes.input} type="text" onKeyPress={onkeypressHandler}
