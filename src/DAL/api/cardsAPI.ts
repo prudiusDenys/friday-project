@@ -3,13 +3,13 @@ import {NewCardsPackType} from "../../UI/common/components-common/AddItemWindow/
 
 
 const instance = axios.create({
-	baseURL: 'https://neko-back.herokuapp.com/2.0',
+	baseURL: 'https://neko-back.herokuapp.com/2.0/',
 	withCredentials: true
 })
 
 export const cardsAPI = {
 	getCardsPack() {
-		return instance.get<ICardsPackResponse>('cards/pack')
+		return instance.get<ICardsPackResponse>('cards/pack?pageCount=20')
 	},
 	getMyModules(userId: string) {
 		return instance.get<ICardsPackResponse>(`cards/pack&user_id=${userId}`)
