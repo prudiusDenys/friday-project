@@ -30,7 +30,7 @@ export const packsAPI = {
 
 // types and interfaces
 
-interface ICardsPackResponse {
+export interface ICardsPackResponse {
 	cardPacks: Array<ICardsPacks>
 	cardPacksTotalCount: number // количество колод
 	maxCardsCount: number

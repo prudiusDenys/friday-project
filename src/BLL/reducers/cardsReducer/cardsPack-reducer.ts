@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {setLoadingAC} from "../profile-reducer";
-import {packsAPI, ICardsPacks} from "../../../DAL/api/packsAPI";
+import {packsAPI, ICardsPacks, ICardsPackResponse} from "../../../DAL/api/packsAPI";
 import {handleServerNetworkError} from "../../../utils/error-utils";
 import {NewCardsPackType} from "../../../UI/common/components-common/AddItemWindow/AddItemWindow";
 
@@ -24,6 +24,13 @@ const initialState: InitialStateType = {
 			_id: "",
 		}
 	],
+	cardPacksTotalCount: 0,
+	maxCardsCount: 0,
+	minCardsCount: 0,
+	page: 1,
+	pageCount: 10,
+	token: '',
+	tokenDeathTime: 0,
 	newCardsPack: {
 		name: '',
 		private: false
@@ -52,9 +59,7 @@ export const cardsPackReducer = (state: InitialStateType = initialState, action:
 				...state,
 				cardPacks: [...state.cardPacks.map(i => {
 					if (i._id === action.updatedCardsPack._id) {
-						return (
-							{...i, name: action.updatedCardsPack.name}
-						)
+						return {...i, name: action.updatedCardsPack.name}
 					} else {
 						return i
 					}
@@ -69,6 +74,17 @@ export const cardsPackReducer = (state: InitialStateType = initialState, action:
 		case "cardsPack/SET-PACK-ID": {
 			return {
 				...state, cardsPackId: action.cardsId
+			}
+		}
+		case "cardsPack/GET-PAGE": {
+			return {
+				...state,
+				page: action.data.page,
+				pageCount: action.data.pageCount,
+				cardPacksTotalCount: action.data.cardPacksTotalCount,
+				maxCardsCount: action.data.maxCardsCount,
+				minCardsCount: action.data.minCardsCount,
+				cardPacks: [...action.data.cardPacks]
 			}
 		}
 		default:
@@ -99,6 +115,7 @@ export const inputSearchValueAC = (inputValue: string) => {
 export const setCardsPackIdAC = (cardsId: string) => {
 	return {type: 'cardsPack/SET-PACK-ID', cardsId} as const
 }
+const getCurrentPage = (data: ICardsPackResponse) => ({type: 'cardsPack/GET-PAGE', data} as const)
 
 // Thunk
 export const getCardsPackTC = (rows: number, currentPage: number) => (dispatch: Dispatch) => {
@@ -107,6 +124,8 @@ export const getCardsPackTC = (rows: number, currentPage: number) => (dispatch: 
 
 	packsAPI.getCardsPack(rows, currentPage)
 		.then(res => {
+			console.log(res.data)
+			dispatch(getCurrentPage(res.data))
 			dispatch(setCardsPackAC(res.data.cardPacks))
 		})
 		.catch(err => {
@@ -172,13 +191,14 @@ export const searchCardsPackTC = (searchValue: string) => (dispatch: Dispatch) =
 }
 
 //types
-type InitialStateType = {
-	cardPacks: Array<ICardsPacks>,
+type InitialStateType = ICardsPackResponse & {
+	token: string
+	tokenDeathTime: number
 	newCardsPack: {
-		name: string,
+		name: string
 		private: boolean
-	},
-	inputSearchValue: string,
+	}
+	inputSearchValue: string
 	cardsPackId: null | string
 }
 
@@ -189,3 +209,4 @@ type ActionType = ReturnType<typeof setCardsPackAC>
 	| ReturnType<typeof updateCardsPackItemAC>
 	| ReturnType<typeof inputSearchValueAC>
 	| ReturnType<typeof setCardsPackIdAC>
+	| ReturnType<typeof getCurrentPage>
