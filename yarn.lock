@@ -2222,6 +2222,11 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+apply-middleware@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/apply-middleware/-/apply-middleware-1.0.3.tgz#8ff14c6c0d525bb29fee2388a7ba1d48713697df"
+  integrity sha512-H9goH70IuU7VGONoxcEncvIUOa9WEoXVgHY6Bm9MRyMqL9OB0p5gl5G2tzXlAI7IkHxrz9gkfNEoHrFaA2OEXw==
+
 aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"

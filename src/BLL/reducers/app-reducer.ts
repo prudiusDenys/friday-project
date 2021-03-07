@@ -1,8 +1,6 @@
-import {Dispatch} from "redux";
 import {authAPI} from "../../DAL/api/authAPI";
 import {isSignIn, setUser} from "./authReducers/login-reducer";
-import {getCardsPackTC, setCardsPackAC} from "./cardsReducer/cardsPack-reducer";
-import {packsAPI} from "../../DAL/api/packsAPI";
+import {getCardsPackTC} from "./cardsReducer/cardsPack-reducer";
 
 const initState: StateType = {
 	errorMessage: null,
